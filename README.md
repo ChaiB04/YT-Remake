@@ -1,4 +1,4 @@
-FE: ReactTS
-BE: SpringBoot
-DB: MongoDB
-(Mobile: Dart)
+# FE: ReactTS
+# BE: SpringBoot
+# DB: MongoDB
+# (Mobile: Dart)
