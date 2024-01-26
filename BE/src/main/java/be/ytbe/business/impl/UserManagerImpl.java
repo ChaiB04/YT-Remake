@@ -46,33 +46,19 @@ public class  UserManagerImpl implements UserManager {
 
                 String encodedPassword = passwordEncoder.encode(newUser.getPassword());
 
-                UserEntity user = UserEntity.builder()
-                        .email(newUser.getEmail())
-                        .username(newUser.getUsername())
-                        .password(encodedPassword)
-                        .role(Role.VIEWER)
-                        .picture(newUser.getPicture())
-                        .build();
+                newUser.setPassword(encodedPassword);
+                newUser.setRole(Role.VIEWER);
 
-                UserEntity entity = userRepository.save(user);
+                UserEntity entity = userRepository.save(UserConverter.convertToEntity(newUser));
 
-                return User.builder()
-                        .id(entity.getId())
-                        .email(entity.getEmail())
-                        .username(entity.getUsername())
-                        .password(entity.getPassword())
-                        .role(entity.getRole())
-                        .picture(entity.getPicture())
-                        .build();
+                return UserConverter.convertToDomain(entity);
             }
             else{
                 throw new UserException("User is null");
             }
         }
         catch(Exception ex){
-//            throw new UserException("Something went wrong with creating the account.");
-            throw new UserException(ex.getMessage());
-
+            throw new UserException("Something went wrong with creating the account.");
         }
     }
 
