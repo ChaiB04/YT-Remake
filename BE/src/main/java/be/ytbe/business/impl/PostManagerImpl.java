@@ -9,6 +9,7 @@ import be.ytbe.persistance.PostRepository;
 import be.ytbe.persistance.entity.PostEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -33,6 +34,13 @@ public class PostManagerImpl implements PostManager {
         catch(Exception ex){
             throw new PostNotFoundException();
         }
+    }
+
+    public List<Post> getAll(){
+        return postRepository.findAll()
+                .stream()
+                .map(PostConverter::convertToDomain)
+                .toList();
     }
 
     public Post create(Post newPost){

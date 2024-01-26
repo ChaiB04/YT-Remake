@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import be.ytbe.domain.Post;
+import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -15,6 +16,12 @@ import be.ytbe.domain.Post;
 public class PostController {
     private final PostManager postManager;
 
+    @GetMapping()
+    public ResponseEntity<List<Post>> getAllPosts(){
+        final List<Post> posts = postManager.getAll();
+
+        return ResponseEntity.ok().body(posts);
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<Post> getPost(@PathVariable(value = "id") final String id){
