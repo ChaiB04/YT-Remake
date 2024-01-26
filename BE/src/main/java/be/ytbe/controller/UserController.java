@@ -32,6 +32,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
+    //Will have to add accesstoken to check access control
     @PutMapping("{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") final String id,
                                            @RequestBody UpdateUserRequest request) {
@@ -39,6 +41,12 @@ public class UserController {
         final User updatedUser = UserRequestsConverter.convertUpdateRequest(request);
         userManager.update(updatedUser);
 
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id){
+        userManager.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

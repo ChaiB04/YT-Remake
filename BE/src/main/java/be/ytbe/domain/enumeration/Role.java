@@ -20,5 +20,8 @@ public enum Role {
 //  The viewers can see everything
 //  on your channel, but they can’t
 //  edit or add anything on the channel.
-    VIEWER
+    VIEWER,
+
+//  Deleted users so there is no key constraint error
+    DELETED
 }

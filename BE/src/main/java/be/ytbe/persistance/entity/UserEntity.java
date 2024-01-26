@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Optional;
+
 @Getter
 @Setter
 @Builder
@@ -30,4 +32,6 @@ public class UserEntity {
     private byte[] picture;
 
     private Role role;
+
+
 }

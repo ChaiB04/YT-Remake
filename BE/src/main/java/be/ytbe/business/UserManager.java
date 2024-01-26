@@ -6,4 +6,5 @@ public interface UserManager {
     User get(String id);
     User create(User newUser);
     void update(User updatedUser);
+    void delete(String id);
 }

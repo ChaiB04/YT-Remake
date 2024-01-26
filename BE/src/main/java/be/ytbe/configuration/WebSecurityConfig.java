@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                                         .requestMatchers(HttpMethod.PUT, "/**").permitAll()
+                                        .requestMatchers(HttpMethod.DELETE, "/**").permitAll()
                                         .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                         .anyRequest().authenticated()
 
