@@ -1,11 +1,15 @@
 package be.ytbe.controller;
 
 import be.ytbe.business.UserManager;
+import be.ytbe.controller.converter.UserRequestsConverter;
+import be.ytbe.controller.dto.CreateUserRequest;
+import be.ytbe.controller.dto.UpdateUserRequest;
 import be.ytbe.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/user")
@@ -13,11 +17,28 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private UserManager userManager;
 
-    @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User request) {
+    @GetMapping("{id}")
+    public ResponseEntity<User> getUser(@PathVariable(value = "id") final String id){
+        final User user = userManager.get(id);
 
-        User response = userManager.create(request);
+        return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping()
+    public ResponseEntity<User> createUser(@RequestBody CreateUserRequest request) {
+        final User userToCreate = UserRequestsConverter.convertCreateRequest(request);
+        final User response = userManager.create(userToCreate);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable("id") final String id,
+                                           @RequestBody UpdateUserRequest request) {
+        request.setId(id);
+        final User updatedUser = UserRequestsConverter.convertUpdateRequest(request);
+        userManager.update(updatedUser);
+
+        return ResponseEntity.noContent().build();
     }
 }

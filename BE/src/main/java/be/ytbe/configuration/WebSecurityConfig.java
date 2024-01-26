@@ -35,12 +35,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry ->
                                 registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                         .requestMatchers("/ws/**", "/oauth2", "/oauth2/**").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/**").permitAll()// Creating a user and login are public
-                                        .requestMatchers(HttpMethod.GET, "/**").permitAll()//PermitAll() removes security checks, if you want a specific http method to be authenticated, you replace it with authenticated()
-                                        .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()// Swagger is also public (In "real life" it would only be public in non-production environments)
+                                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                        .requestMatchers(HttpMethod.PUT, "/**").permitAll()
+                                        .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                         .anyRequest().authenticated()
-
-                        // Everything else --> authentication required, which is Spring security's default behaviour
 
                 )
 
