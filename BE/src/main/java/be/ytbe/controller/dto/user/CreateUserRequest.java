@@ -1,4 +1,4 @@
-package be.ytbe.controller.dto;
+package be.ytbe.controller.dto.user;
 
 import be.ytbe.domain.enumeration.Role;
 import jakarta.validation.constraints.NotBlank;

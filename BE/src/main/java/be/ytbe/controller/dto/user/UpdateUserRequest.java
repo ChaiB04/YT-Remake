@@ -1,4 +1,4 @@
-package be.ytbe.controller.dto;
+package be.ytbe.controller.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

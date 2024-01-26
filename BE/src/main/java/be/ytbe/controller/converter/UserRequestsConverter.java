@@ -1,7 +1,7 @@
 package be.ytbe.controller.converter;
 
-import be.ytbe.controller.dto.CreateUserRequest;
-import be.ytbe.controller.dto.UpdateUserRequest;
+import be.ytbe.controller.dto.user.CreateUserRequest;
+import be.ytbe.controller.dto.user.UpdateUserRequest;
 import be.ytbe.domain.User;
 
 public final class UserRequestsConverter {
