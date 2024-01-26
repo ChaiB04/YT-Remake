@@ -44,6 +44,10 @@ public class  UserManagerImpl implements UserManager {
         try{
             if(newUser != null){
 
+                if (userRepository.existsByEmail(newUser.getEmail())){
+                    throw new EmailAlreadyInUseException();
+                }
+
                 String encodedPassword = passwordEncoder.encode(newUser.getPassword());
 
                 newUser.setPassword(encodedPassword);
@@ -56,6 +60,9 @@ public class  UserManagerImpl implements UserManager {
             else{
                 throw new UserException("User is null");
             }
+        }
+        catch (EmailAlreadyInUseException ex){
+            throw ex;
         }
         catch(Exception ex){
             throw new UserException("Something went wrong with creating the account.");
