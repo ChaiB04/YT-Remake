@@ -110,4 +110,22 @@ public class  UserManagerImpl implements UserManager {
         userToUpdate.setPicture(updatedUser.getPicture());
     }
 
+
+    public void delete(String id){
+        try{
+
+            User userToDelete = userRepository.findById(id)
+                    .map(UserConverter::convertToDomain)
+                    .orElseThrow(UserNotFoundException::new);
+
+            userRepository.delete(UserConverter.convertToEntity(userToDelete));
+        }
+        catch (UserNotFoundException ex){
+            throw ex;
+        }
+        catch (Exception ex){
+            throw new UserException("Something went wrong with deleting the account");
+        }
+    }
+
 }
