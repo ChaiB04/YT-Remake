@@ -3,3 +3,5 @@ enum PostType{
     PICTURE,
     DEFAULT
 }
+
+export default PostType

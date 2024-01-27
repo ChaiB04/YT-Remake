@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import PostService from "../services/PostService";
 import { AxiosResponse } from 'axios';
 import { ChangeEvent } from "react";
+import PostType from '../enums/PostType'
+import User from '../domains/User'
+import Post from '../domains/Post'
 
 function UploadVideo() {
 
@@ -10,7 +13,7 @@ function UploadVideo() {
         id: null || '',
         title: '',
         picture: [],
-        content: [],
+        // content: [],
         description: '',
         user: { id: '' } as User,
         postType: PostType.DEFAULT
@@ -28,13 +31,13 @@ function UploadVideo() {
     }
 
 
-    const openFileExplorer = () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = ".jpg,.jpeg,.mp4";
-        input.onchange = handleFileSelect;
-        input.click();
-    };
+    // const openFileExplorer = () => {
+    //     const input = document.createElement("input");
+    //     input.type = "file";
+    //     input.accept = ".jpg,.jpeg,.mp4";
+    //     input.onchange = handleFileSelect;
+    //     input.click();
+    // };
 
     const handleFileSelect = async (event: ChangeEvent<HTMLInputElement>)  => {
         event.preventDefault();
@@ -138,7 +141,7 @@ function UploadVideo() {
                     <input
                         type="text"
                         name="pictureProperty"
-                        value={formData.picture}
+                        // value={formData.picture}
                         onChange={handleInputChange}
                     />
                 </label>

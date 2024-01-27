@@ -1,3 +1,6 @@
+import Role from '../enums/Role'
+
+
 class User {
     id?: string;
     username?: string;
@@ -24,3 +27,5 @@ class User {
 
 
 }
+
+export default User

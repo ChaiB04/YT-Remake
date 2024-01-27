@@ -1,4 +1,5 @@
 import axios from "../axiosConfig.ts";
+import Post from '../domains/Post'
 
 function getAll(){
     return axios.get("/post")

@@ -1,3 +1,6 @@
+import User from '../domains/User'
+import PostType from '../enums/PostType'
+
 class Post {
     id?: string;
     title?: string;
@@ -25,3 +28,5 @@ class Post {
       this.postType = postType;
     }
   }
+
+  export default Post

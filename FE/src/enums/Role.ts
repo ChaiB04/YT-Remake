@@ -2,5 +2,8 @@ enum Role{
     ADMIN,
     MANAGER,
     EDITOR,
-    VIEWER
+    VIEWER,
+    DEFAULT
 }
+
+export default Role
