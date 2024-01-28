@@ -59,7 +59,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoderDecoder 
             Claims claims = jwt.getBody();
 
             String roles = claims.get("roles", String.class);
-            String userId = claims.get("id", String.class);
+            String  userId = claims.get("id", String.class);
 //            String email = claims.get("subject", String.class);
 
             return new AccessTokenImpl(claims.getSubject(), userId, roles);
