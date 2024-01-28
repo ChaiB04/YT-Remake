@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class AccessTokenImpl implements AccessToken {
     private final String subject;
-    private final Integer id;
+    private final String id;
     private final String roles;
 
-    public AccessTokenImpl(String subject, Integer id, String roles) {
+    public AccessTokenImpl(String subject, String id, String roles) {
         this.subject = subject;
         this.id = id;
         this.roles = roles != null ? roles : "DEFAULT";
