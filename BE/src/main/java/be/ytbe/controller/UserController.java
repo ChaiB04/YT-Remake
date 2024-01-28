@@ -1,11 +1,13 @@
 package be.ytbe.controller;
 
+import be.ytbe.business.AccessTokenManager;
 import be.ytbe.business.UserManager;
 import be.ytbe.controller.converter.UserRequestsConverter;
 import be.ytbe.controller.dto.user.CreateUserRequest;
 import be.ytbe.controller.dto.user.UpdateUserRequest;
 import be.ytbe.domain.User;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
     private UserManager userManager;
+    private AccessTokenManager accessTokenManager;
 
     @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable(value = "id") final String id){
+        final User user = userManager.get(id);
+
+        return ResponseEntity.ok().body(user);
+    }
+
+    @GetMapping("/accessToken")
+    public ResponseEntity<User> getUserByAccessToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
+        final String id = accessTokenManager.getUserIdFromToken(accessToken);
         final User user = userManager.get(id);
 
         return ResponseEntity.ok().body(user);

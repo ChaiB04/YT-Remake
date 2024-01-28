@@ -4,7 +4,7 @@ public interface AccessToken {
 
     String getRoles();
 
-    Integer getId();
+    String getId();
 
     String getSubject();
 
