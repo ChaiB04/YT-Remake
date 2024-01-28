@@ -42,8 +42,6 @@ public class LoginManagerImpl implements LoginManager {
                 else{
                     return generateAccessToken(foundUser);
                 }
-
-
             }
             else{
                 throw new UserNotFoundException();

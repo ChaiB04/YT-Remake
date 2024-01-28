@@ -13,7 +13,7 @@ function Profile() {
         username: '',
         password: '',
         email: '',
-        picture: [],
+        picture: new Uint8Array,
         role: Role.DEFAULT
     });
 
@@ -26,15 +26,15 @@ function Profile() {
             try {
                 const response = await UserService.get(id);
                 setUser(response.data);
+                console.log(response)
             } catch (error) {
                 console.error("Error fetching user:", error);
             }
         }
     };
 
-    function arrayBufferToImageSrc(buffer: Uint8Array): string {
-        const binary = String.fromCharCode(...buffer);
-        return `data:image/jpeg;base64,${btoa(binary)}`;
+    function getProfilePicture(picture: Uint8Array): string {
+        return `data:image/jpeg;base64,${(picture.toString())}`;
     }
 
 
@@ -43,7 +43,7 @@ function Profile() {
             <Paper elevation={3} className={styles.profilePaper}>
                 <Avatar
                     alt={user.username}
-                    src={user.picture ? arrayBufferToImageSrc(Uint8Array.from(user.picture)) : ''}
+                    src={user.picture ? getProfilePicture(user.picture) : ''}
                     className={styles.profileAvatar}
                     sx={{ width: 250, height: 250, marginBottom: 2 }} />
                 <Typography variant="h5" gutterBottom>
