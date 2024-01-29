@@ -28,7 +28,7 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
     const handleUpdate = async () => {
         try {
 
-            const pictureBase64 = picture ? arrayBufferToBase64(picture) : '';
+            const pictureBase64 = picture && picture !== props.user.picture ? arrayBufferToBase64(picture) : picture;
 
             const updatedUser: object = {
                 id: id,
@@ -40,21 +40,21 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
             await UserService.update(updatedUser);
 
             toast.success("Successfully updated", { position: 'bottom-center' as ToastPosition })
-        }
-        catch (error: any) {
-            console.error(error)
-            const errors = error.response.data.errors;
+        } catch (error: any) {
+            console.error(error);
 
-            if (errors) {
-                if (error.response.data.status === 400) {
+            if (error.response && error.response.data) {
+                const errors = error.response.data.errors;
+
+                if (errors && error.response.data.status === 400) {
                     errors.forEach((error: any) => {
                         toast.error(error.error, { position: 'bottom-center' as ToastPosition });
-                    }
-                    )
+                    });
+                } else {
+                    toast.error("Unexpected error occurred", { position: 'bottom-center' as ToastPosition });
                 }
-                else {
-                    toast.error("Unexpected error ocurred", { position: 'bottom-center' as ToastPosition });
-                }
+            } else {
+                toast.error("Unexpected error occurred", { position: 'bottom-center' as ToastPosition });
             }
         }
     };
@@ -109,12 +109,13 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
     }
 
     function arrayBufferToBase64(buffer: Uint8Array): string {
-        const binary = buffer.reduce((binaryString, byte) => {
+        const binary = Array.from(buffer).reduce((binaryString, byte) => {
             return binaryString + String.fromCharCode(byte);
         }, '');
 
         return btoa(binary);
     }
+
 
 
     return (

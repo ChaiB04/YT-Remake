@@ -9,8 +9,8 @@ import UpdateEmailAndUsername from "../components/UpdateEmailAndUsername";
 import UpdatePassword from "../components/UpdatePassword";
 
 function AccountSettings() {
-    // const accessToken = useSelector((state: any) => state.storage.usertoken);
-    const accessToken = "aaa"
+    const accessToken = useSelector((state: any) => state.usertoken);
+    // const accessToken = "aaa"
     const [selectedTab, setSelectedTab] = useState(0);
     const navigate = useNavigate()
     const [user, setUser] = useState<User>({
@@ -23,7 +23,7 @@ function AccountSettings() {
     });
 
     useEffect(() => {
-
+        console.log(accessToken)
         if (!accessToken) {
             navigate("/login")
         }

@@ -7,24 +7,15 @@ import TextField from '@mui/material/TextField';
 // import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
-
-
+import theme from '../colorTheme.ts'
 
 function Login() {
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#6B5BD3"
-            }
-        },
-    });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -48,7 +39,7 @@ function Login() {
 
             navigate("/")
         }
-        catch(error){
+        catch (error) {
             toast.error("error with logging in", {
                 autoClose: 5000,
                 draggable: false,
@@ -67,49 +58,47 @@ function Login() {
 
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs" fixed >
-                    <Paper sx={{
-                        margin: 5,
-                        color: "#6B5BD3"
-                    }}>
-                        <h1> Login </h1>
-                        <form onSubmit={handleSubmit}>
-                            <TextField
-                                id="email"
-                                name="email"
-                                label="Email"
-                                variant="filled"
-                                onChange={handleInputChange}
-                                sx={{
-                                    margin: 5,
-                                    color: "#6B5BD3"
-                                }}
-                            />
+            <Container component="main" maxWidth="xs" fixed >
+                <Paper sx={{
+                    margin: 5,
+                    color: theme.palette.primary.main
+                }}>
+                    <h1> Login </h1>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            id="email"
+                            name="email"
+                            label="Email"
+                            variant="filled"
+                            onChange={handleInputChange}
+                            sx={{
+                                margin: 5,
+                                color: theme.palette.primary.main
+                            }}
+                        />
 
-                            <TextField
-                                id="password"
-                                name="password"
-                                label="Password"
-                                variant="filled"
-                                onChange={handleInputChange}
-                                sx={{
-                                    marginBottom: 5,
-                                    color: "#6B5BD3"
-                                }}
-                            />
+                        <TextField
+                            id="password"
+                            name="password"
+                            label="Password"
+                            variant="filled"
+                            onChange={handleInputChange}
+                            sx={{
+                                marginBottom: 5,
+                                color: theme.palette.primary.main
+                            }}
+                        />
 
-                            <Button
-                                variant="contained"
-                                type='submit'
-                                sx={{
-                                    margin: 5
-                                }}>Login</Button>
-                        </form>
+                        <Button
+                            variant="contained"
+                            type='submit'
+                            sx={{
+                                margin: 5
+                            }}>Login</Button>
+                    </form>
 
-                    </Paper>
-                </Container>
-            </ThemeProvider>
+                </Paper>
+            </Container>
         </>
     )
 }
