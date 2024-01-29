@@ -33,7 +33,7 @@ function Profile() {
         }
     };
 
-    function getProfilePicture(picture: Uint8Array): string {
+    function getImageSrc(picture: Uint8Array): string {
         return `data:image/jpeg;base64,${(picture.toString())}`;
     }
 
@@ -43,7 +43,7 @@ function Profile() {
             <Paper elevation={3} className={styles.profilePaper}>
                 <Avatar
                     alt={user.username}
-                    src={user.picture ? getProfilePicture(user.picture) : ''}
+                    src={user.picture ? getImageSrc(user.picture) : ''}
                     className={styles.profileAvatar}
                     sx={{ width: 250, height: 250, marginBottom: 2 }} />
                 <Typography variant="h5" gutterBottom>
