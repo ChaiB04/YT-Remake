@@ -10,7 +10,6 @@ import UpdatePassword from "../components/UpdatePassword";
 
 function AccountSettings() {
     const accessToken = useSelector((state: any) => state.usertoken);
-    // const accessToken = "aaa"
     const [selectedTab, setSelectedTab] = useState(0);
     const navigate = useNavigate()
     const [user, setUser] = useState<User>({
