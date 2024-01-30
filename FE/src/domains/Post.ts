@@ -4,7 +4,7 @@ import PostType from '../enums/PostType'
 class Post {
     id?: string;
     title?: string;
-    picture?: number[];
+    picture?: Uint8Array;
     content?: BigUint64Array;
     description?: string;
     user?: User;
@@ -13,7 +13,7 @@ class Post {
     constructor(
       id?: string,
       title?: string,
-      picture?: number[],
+      picture?: Uint8Array,
       content?: BigUint64Array,
       description?: string,
       user?: User,

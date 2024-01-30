@@ -45,22 +45,22 @@ public class PostManagerImpl implements PostManager {
 
     public Post create(Post newPost){
         try{
-
-            if(checkFields(newPost)){
+//            if(checkFields(newPost)){
                 PostEntity entity = postRepository.save(PostConverter.convertToEntity(newPost));
                 return PostConverter.convertToDomain(entity);
-            }
-            else{
-                throw new PostException("Not all fields are filled in.");
-            }
+//            }
+//            else{
+//                throw new PostException("Not all fields are filled in.");
+//            }
         }
-        catch(IllegalAccessException ex)
-        {
-            throw new PostException("Not all fields are filled in. Message: " + ex.getMessage());
-        }
+//        catch(IllegalAccessException ex)
+//        {
+//            throw new PostException("Not all fields are filled in. Message: " + ex.getMessage());
+//        }
         catch(Exception ex)
         {
-            throw new PostException("Something went wrong with creating a post.");
+//            throw new PostException("Something went wrong with creating a post.");
+            throw new PostException(ex.getMessage());
         }
     }
 
