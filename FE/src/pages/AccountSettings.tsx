@@ -7,10 +7,11 @@ import { useSelector } from 'react-redux';
 import { Tab, Tabs, Box } from "@mui/material";
 import UpdateEmailAndUsername from "../components/UpdateEmailAndUsername";
 import UpdatePassword from "../components/UpdatePassword";
+import { RootState } from "../redux/app/Store";
+
 
 function AccountSettings() {
-    // const accessToken = useSelector((state: any) => state.storage.usertoken);
-    const accessToken = "aaa"
+    const accesstoken = useSelector((state: RootState) => state.usertoken);
     const [selectedTab, setSelectedTab] = useState(0);
     const navigate = useNavigate()
     const [user, setUser] = useState<User>({
@@ -24,17 +25,19 @@ function AccountSettings() {
 
     useEffect(() => {
 
-        if (!accessToken) {
+        if (!accesstoken) {
             navigate("/login")
         }
 
         fetchUser();
-    }, [accessToken]);
+    }, [accesstoken]);
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken();
+            const token = accesstoken || "";
+            const response = await UserService.getByAccessToken(token);
             setUser(response.data);
+           
         } catch (error) {
             console.error("Error fetching user:", error);
         }
