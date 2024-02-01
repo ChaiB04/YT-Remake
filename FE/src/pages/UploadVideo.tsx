@@ -5,6 +5,8 @@ import { ChangeEvent } from "react";
 import PostType from '../enums/PostType'
 import User from '../domains/User'
 import Post from '../domains/Post'
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/app/Store";
 
 function UploadVideo() {
 
@@ -18,6 +20,8 @@ function UploadVideo() {
         user: { id: '' } as User,
         postType: PostType.DEFAULT
     });
+
+
 
     useEffect(() => {
         getVideos();
