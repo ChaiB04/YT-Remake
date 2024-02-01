@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { Avatar, Container, Typography, Paper } from "@mui/material";
 import UserService from "../services/UserService";
 import Role from '../enums/Role';
