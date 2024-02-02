@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PostService from "../services/PostService";
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, all } from 'axios';
 import { ChangeEvent } from "react";
 import PostType from '../enums/PostType';
 import User from '../domains/User';
@@ -11,6 +11,8 @@ import Role from "../enums/Role";
 import UserService from "../services/UserService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import pako from "pako";
+import { toast } from "react-toastify";
 
 function UploadVideo() {
     const accessToken = useSelector((state: any) => state.usertoken);
@@ -33,7 +35,7 @@ function UploadVideo() {
         description: '',
         postType: PostType.DEFAULT
     });
-    
+
 
     const [videoPreview, setVideoPreview] = useState<string | ArrayBuffer | undefined>(undefined);
     const [videoKey, setVideoKey] = useState(Date.now());
@@ -47,6 +49,7 @@ function UploadVideo() {
 
         fetchUser();
         getVideos();
+
 
     }, [accessToken]);
 
@@ -63,6 +66,8 @@ function UploadVideo() {
     async function getVideos() {
         const response: AxiosResponse<Post[]> = await PostService.getAll();
         const posts = response.data;
+
+
         setAllPosts(posts);
     }
 
@@ -155,13 +160,13 @@ function UploadVideo() {
     };
 
     function bigUint64ArrayToUint8Array(bigUintArray: BigUint64Array): Uint8Array {
-        const buffer = new ArrayBuffer(bigUintArray.length * 8); 
+        const buffer = new ArrayBuffer(bigUintArray.length * 8);
         const dataView = new DataView(buffer);
-    
+
         for (let i = 0; i < bigUintArray.length; i++) {
-            dataView.setBigUint64(i * 8, bigUintArray[i], true); 
+            dataView.setBigUint64(i * 8, bigUintArray[i], true);
         }
-    
+
         return new Uint8Array(buffer);
     }
 
@@ -170,7 +175,7 @@ function UploadVideo() {
         uint8Array.forEach((byte) => {
             binary += String.fromCharCode(byte);
         });
-    
+
         return btoa(binary);
     }
 
@@ -178,8 +183,9 @@ function UploadVideo() {
         e.preventDefault();
 
         const contentArray = formData.content ? bigUint64ArrayToUint8Array(formData.content) : null
-        const contentBase64 = contentArray ? uint8ArrayToBase64String(contentArray) : null
+        const contentBase64 = contentArray ? uint8ArrayToBase64String(contentArray) : null;
         const pictureBase64 = formData.picture ? uint8ArrayToBase64String(formData.picture) : null
+        
 
         const postUser: User = {
             id: user.id
@@ -187,14 +193,14 @@ function UploadVideo() {
 
         const newPost: object = {
             title: formData.title,
-            picture: pictureBase64, 
-            content: contentBase64,  
+            picture: pictureBase64,
+            content: contentBase64,
             description: formData.description,
             user: postUser,
             postType: formData.postType,
         };
 
-        console.log(newPost)
+
         try {
             const response = await PostService.create(newPost);
             console.log(response);
@@ -203,12 +209,52 @@ function UploadVideo() {
         }
     };
 
+    // const [originalData, setOriginalData] = useState('Hello, Broski! This is a test message for compression.');
+    // const [compressedData, setCompressedData] = useState<Uint8Array | null>(null);
+    // const [decompressedData, setDecompressedData] = useState<string | null>(null);
+
+    const handleCompress = (dataToCompress: string) => {
+        if(dataToCompress !== "Null"){
+            const inputData = new TextEncoder().encode(dataToCompress);
+            const compressed = pako.gzip(inputData);
+            return compressed;
+        }
+        else{
+            toast.error("Cannot compress content");
+        }
+    };
+
+    const handleDecompress = (compressedData: BigUint64Array | Uint8Array) => {
+        if (compressedData) {
+            const decompressed = pako.ungzip(compressedData, { to: 'string' });
+            return decompressed;
+        }
+    };
 
 
 
 
     return (
         <>
+            <h1>All posts:</h1>
+            {/* <h1>{allPosts.length.toString()}</h1> */}
+            {allPosts && allPosts.map((video) => {
+                return (
+                    <div key={video.id}>
+                        <video width="640" height="480" controls key={videoKey}>
+                            {video.content !== undefined && (
+                                // <source src={URL.createObjectURL(new Blob([video.content], { type: 'video/mp4' }))} type="video/mp4" />
+                                <source src={`data:video/mp4;base64,${video.content}`} type="video/mp4" />
+                            )}
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                )
+            }
+
+            )}
+
+            <br />
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Title"
