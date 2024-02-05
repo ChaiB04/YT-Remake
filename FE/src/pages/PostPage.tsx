@@ -1,0 +1,76 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import PostType from '../enums/PostType';
+import PostService from "../services/PostService";
+
+function PostPage() {
+  const { id } = useParams();
+  const [post, setPost] = useState({
+    id: null || '',
+    title: '',
+    picture: new Uint8Array,
+    content: new BigUint64Array,
+    description: '',
+    postType: PostType.DEFAULT,
+    user: {
+      id: ''
+    }
+  });
+
+  const fetchPost = async () => {
+    try {
+      if (id) {
+        const response = await PostService.get(id);
+        setPost(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching post:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [id]);
+
+  function getImageSrc(picture: Uint8Array): string {
+    return `data:image/jpeg;base64,${(picture.toString())}`;
+  }
+
+  return (
+    <Grid container spacing={3} justifyContent="center">
+      <Grid item xs={12} md={8}>
+        <Card>
+          <CardMedia
+            component="img"
+            height="200"
+            alt={post.title}
+            src={getImageSrc(post.picture)}
+          />
+          <CardContent>
+            <Typography variant="h4" component="div">
+              {post.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              <video width="640" height="480" controls key={Date.now()}>
+                {post.content !== undefined && (
+                  <source src={`data:video/mp4;base64,${post.content}`} type="video/mp4" />
+                )}
+                Your browser does not support the video tag.
+              </video>
+            </Typography>
+            <Typography variant="body1" paragraph>
+              {post.description}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+}
+
+export default PostPage;
