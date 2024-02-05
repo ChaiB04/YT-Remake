@@ -8,6 +8,7 @@ import { Tab, Tabs, Box } from "@mui/material";
 import UpdateEmailAndUsername from "../components/UpdateEmailAndUsername";
 import UpdatePassword from "../components/UpdatePassword";
 import { RootState } from "../redux/app/Store";
+import DeleteAccount from "../components/DeleteAccount";
 
 
 function AccountSettings() {
@@ -59,11 +60,13 @@ function AccountSettings() {
             >
                 <Tab label="Personal Data" />
                 <Tab label="Security Settings" />
+                <Tab label="Delete Account"/>
             </Tabs>
             {user.id && (
                 <Box p={3} flex="1" style={{ marginTop: '20px' }}>
                     {selectedTab === 0 && <UpdateEmailAndUsername user={user} />}
                     {selectedTab === 1 && <UpdatePassword user={user} />}
+                    {selectedTab === 2 && <DeleteAccount user={user} />}
                 </Box>
             )}
         </Box>

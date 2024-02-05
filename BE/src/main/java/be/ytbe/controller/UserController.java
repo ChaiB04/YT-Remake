@@ -4,6 +4,7 @@ import be.ytbe.business.AccessTokenManager;
 import be.ytbe.business.UserManager;
 import be.ytbe.controller.converter.UserRequestsConverter;
 import be.ytbe.controller.dto.user.CreateUserRequest;
+import be.ytbe.controller.dto.user.DeleteUserRequest;
 import be.ytbe.controller.dto.user.UpdateUserRequest;
 import be.ytbe.domain.User;
 import lombok.AllArgsConstructor;
@@ -56,9 +57,10 @@ public class UserController {
     }
 
     //TODO Will have to add accesstoken to check access control
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id){
-        userManager.delete(id);
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserRequest request){
+        final User deleteUser = UserRequestsConverter.convertDeleteRequest(request);
+        userManager.delete(deleteUser);
         return ResponseEntity.noContent().build();
     }
 }

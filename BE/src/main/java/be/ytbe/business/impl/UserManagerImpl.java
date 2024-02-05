@@ -104,12 +104,16 @@ public class  UserManagerImpl implements UserManager {
     }
 
 
-    public void delete(String id){
+    public void delete(User deleteUser){
         try{
 
-            User userToDelete = userRepository.findById(id)
+            User userToDelete = userRepository.findById(deleteUser.getId())
                     .map(UserConverter::convertToDomain)
                     .orElseThrow(UserNotFoundException::new);
+
+            if(!passwordEncoder.matches(deleteUser.getPassword(), userToDelete.getPassword())){
+                throw new UserException("Passwords don't match. Cannot delete user.");
+            }
 
             userRepository.delete(UserConverter.convertToEntity(userToDelete));
         }
