@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PostService from "../services/PostService";
-import { AxiosResponse, all } from 'axios';
+import { AxiosResponse } from 'axios';
 import { ChangeEvent } from "react";
 import PostType from '../enums/PostType';
 import User from '../domains/User';
@@ -50,7 +50,6 @@ function UploadVideo() {
         fetchUser();
         getVideos();
 
-
     }, [accessToken]);
 
     const fetchUser = async () => {
@@ -66,8 +65,6 @@ function UploadVideo() {
     async function getVideos() {
         const response: AxiosResponse<Post[]> = await PostService.getAll();
         const posts = response.data;
-
-
         setAllPosts(posts);
     }
 
@@ -183,9 +180,12 @@ function UploadVideo() {
         e.preventDefault();
 
         const contentArray = formData.content ? bigUint64ArrayToUint8Array(formData.content) : null
-        const contentBase64 = contentArray ? uint8ArrayToBase64String(contentArray) : null;
+        const contentBase64 = contentArray ? uint8ArrayToBase64String(contentArray) : null
         const pictureBase64 = formData.picture ? uint8ArrayToBase64String(formData.picture) : null
         
+        
+
+
 
         const postUser: User = {
             id: user.id
@@ -200,7 +200,7 @@ function UploadVideo() {
             postType: formData.postType,
         };
 
-
+        console.log(newPost)
         try {
             const response = await PostService.create(newPost);
             console.log(response);
@@ -214,12 +214,12 @@ function UploadVideo() {
     // const [decompressedData, setDecompressedData] = useState<string | null>(null);
 
     const handleCompress = (dataToCompress: string) => {
-        if(dataToCompress !== "Null"){
+        if (dataToCompress !== "Null") {
             const inputData = new TextEncoder().encode(dataToCompress);
             const compressed = pako.gzip(inputData);
             return compressed;
         }
-        else{
+        else {
             toast.error("Cannot compress content");
         }
     };
