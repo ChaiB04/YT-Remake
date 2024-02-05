@@ -2,22 +2,13 @@ import User from '../domains/User';
 import { useState } from 'react';
 import LoginService from '../services/LoginService';
 import TextField from '@mui/material/TextField';
-// import { Grid } from '@mui/material';
-// import { styled } from '@mui/material/styles';
-// import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, Button, Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
-import style from "../styles/Login.module.css"
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import { ToastPosition } from 'react-toastify';
 
-import InputBase from '@mui/material';
 
 function Login() {
 
@@ -53,10 +44,8 @@ function Login() {
             navigate("/")
         }
         catch (error) {
-            toast.error("error with logging in", {
-                autoClose: 5000,
-                draggable: false,
-            });
+            toast.error("error with logging in", { position: 'bottom-center' as ToastPosition });
+
         }
     }
 

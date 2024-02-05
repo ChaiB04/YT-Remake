@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import {  ToastContainer } from 'react-toastify';
 import Home from './pages/Home';
 import { ThemeProvider, createTheme } from '@mui/material';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const theme = createTheme({
@@ -33,7 +34,7 @@ function App() {
           <Route path="/account-settings" element={<AccountSettings />} />
    
         </Routes>
-        <ToastContainer toastStyle={{ backgroundColor: "#2b1327", color: "#ECE1E7", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)" }} />
+        <ToastContainer/>
       </Router>
     </ThemeProvider>
   )
