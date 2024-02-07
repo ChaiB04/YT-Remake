@@ -35,6 +35,7 @@ function Profile() {
             }
         }
     };
+    
 
     // const fetchUser = async () => {
     //     if (id) {

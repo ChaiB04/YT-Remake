@@ -6,7 +6,7 @@ class User {
     username?: string;
     password?: string;
     email?: string;
-    picture?: Uint8Array;
+    picture?: number[];
     role?: Role;
 
     constructor(
@@ -14,7 +14,7 @@ class User {
         username?: string,
         password?: string,
         email?: string,
-        picture?: Uint8Array,
+        picture?: number[],
         role?: Role) {
         this.id = id;
         this.username = username;
