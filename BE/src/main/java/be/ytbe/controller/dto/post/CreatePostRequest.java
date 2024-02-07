@@ -12,7 +12,7 @@ import lombok.Getter;
 public class CreatePostRequest {
     private String title;
     private byte[] picture;
-    private Object content;
+    private byte[] content;
     private String description;
     private User creator;
     private PostType postType;

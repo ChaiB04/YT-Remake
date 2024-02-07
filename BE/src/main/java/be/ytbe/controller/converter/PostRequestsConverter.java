@@ -8,9 +8,9 @@ public final class PostRequestsConverter {
     private PostRequestsConverter(){}
 
 
-    public static Post convertCreateRequest(CreatePostRequest request){
+    public static Post convertCreateRequest(CreatePostRequest request, String contentUrl){
         return Post.builder()
-                .content(request.getContent())
+                .content(contentUrl)
                 .title(request.getTitle())
                 .picture(request.getPicture())
                 .description(request.getDescription())

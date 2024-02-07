@@ -10,7 +10,7 @@ public class Post {
     private String id;
     private String title;
     private byte[] picture;
-    private Object content;
+    private String content;
     private String description;
     private User creator;
     private PostType postType;

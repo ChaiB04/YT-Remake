@@ -14,7 +14,7 @@ function PostPage() {
     id: null || '',
     title: '',
     picture: new Uint8Array,
-    content: new BigUint64Array,
+    content: '',
     description: '',
     postType: PostType.DEFAULT,
     user: {
@@ -27,6 +27,7 @@ function PostPage() {
       if (id) {
         const response = await PostService.get(id);
         setPost(response.data);
+        console.log(response.data)
       }
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -43,22 +44,16 @@ function PostPage() {
 
   return (
     <Grid container spacing={3} justifyContent="center">
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={13}>
         <Card>
-          <CardMedia
-            component="img"
-            height="200"
-            alt={post.title}
-            src={getImageSrc(post.picture)}
-          />
           <CardContent>
             <Typography variant="h4" component="div">
               {post.title}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              <video width="640" height="480" controls key={Date.now()}>
+              <video width="640" height="480" controls key={Date.now()} {...(post.picture && { poster: getImageSrc(post.picture) })}>
                 {post.content !== undefined && (
-                  <source src={`data:video/mp4;base64,${post.content}`} type="video/mp4" />
+                  <source src={post.content} type="video/mp4" />
                 )}
                 Your browser does not support the video tag.
               </video>

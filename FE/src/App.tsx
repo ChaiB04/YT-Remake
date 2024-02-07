@@ -8,6 +8,7 @@ import PostPage from './pages/PostPage';
 import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './colorTheme.ts'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

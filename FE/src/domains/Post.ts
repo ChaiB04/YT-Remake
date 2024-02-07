@@ -5,7 +5,7 @@ class Post {
     id?: string;
     title?: string;
     picture?: Uint8Array;
-    content?: BigUint64Array;
+    content?: BigUint64Array | string;
     description?: string;
     user?: User;
     postType?: PostType;
@@ -14,7 +14,7 @@ class Post {
       id?: string,
       title?: string,
       picture?: Uint8Array,
-      content?: BigUint64Array,
+      content?: BigUint64Array | string,
       description?: string,
       user?: User,
       postType?: PostType

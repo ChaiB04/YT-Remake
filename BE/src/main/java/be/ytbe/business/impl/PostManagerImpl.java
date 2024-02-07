@@ -32,7 +32,8 @@ public class PostManagerImpl implements PostManager {
             }
         }
         catch(Exception ex){
-            throw new PostNotFoundException();
+//            throw new PostNotFoundException();
+            throw ex;
         }
     }
 

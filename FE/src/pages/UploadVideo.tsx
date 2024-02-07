@@ -31,7 +31,7 @@ function UploadVideo() {
         id: null || '',
         title: '',
         picture: new Uint8Array,
-        content: new BigUint64Array,
+        content: '',
         description: '',
         postType: PostType.DEFAULT
     });
@@ -70,41 +70,34 @@ function UploadVideo() {
 
     const handleFileSelect = async (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-
+    
         const fileInput = event.target;
         const file = fileInput.files && fileInput.files[0];
-
+    
         if (file) {
             try {
                 const reader = new FileReader();
-
+    
                 reader.onload = (e: ProgressEvent<FileReader>) => {
                     const result = e.target?.result;
-
+    
                     if (result) {
-                        let arrayBuffer: ArrayBuffer;
-
+                        let base64String: string;
+    
                         if (typeof result === 'string') {
-                            const encoder = new TextEncoder();
-                            arrayBuffer = encoder.encode(result).buffer;
+                            base64String = result.split(',')[1]; 
                         } else {
-                            arrayBuffer = result;
+                            const arrayBuffer = result as ArrayBuffer;
+                            const uint8Array = new Uint8Array(arrayBuffer);
+                            base64String = uint8ArrayToBase64String(uint8Array);
                         }
-
-                        setVideoPreview(undefined);
-
-                        const paddedLength = Math.ceil(arrayBuffer.byteLength / 8) * 8;
-                        const paddedArrayBuffer = new ArrayBuffer(paddedLength);
-                        const byteArray = new BigUint64Array(paddedArrayBuffer);
-
-                        new Uint8Array(paddedArrayBuffer).set(new Uint8Array(arrayBuffer));
-
-                        setVideoPreview(arrayBuffer);
+    
+                        setVideoPreview(base64String);
                         setVideoKey(Date.now());
-                        setFormData({ ...formData, content: byteArray });
+                        setFormData({ ...formData, content: base64String });
                     }
                 };
-
+    
                 reader.readAsArrayBuffer(file);
             } catch (error) {
                 console.error(error);
@@ -112,7 +105,7 @@ function UploadVideo() {
             }
         }
     };
-
+    
 
     const handleThumbnailSelect = async (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -179,13 +172,7 @@ function UploadVideo() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const contentArray = formData.content ? bigUint64ArrayToUint8Array(formData.content) : null
-        const contentBase64 = contentArray ? uint8ArrayToBase64String(contentArray) : null
         const pictureBase64 = formData.picture ? uint8ArrayToBase64String(formData.picture) : null
-        
-        
-
-
 
         const postUser: User = {
             id: user.id
@@ -194,7 +181,7 @@ function UploadVideo() {
         const newPost: object = {
             title: formData.title,
             picture: pictureBase64,
-            content: contentBase64,
+            content: formData.content,
             description: formData.description,
             user: postUser,
             postType: formData.postType,
@@ -209,42 +196,19 @@ function UploadVideo() {
         }
     };
 
-    // const [originalData, setOriginalData] = useState('Hello, Broski! This is a test message for compression.');
-    // const [compressedData, setCompressedData] = useState<Uint8Array | null>(null);
-    // const [decompressedData, setDecompressedData] = useState<string | null>(null);
-
-    const handleCompress = (dataToCompress: string) => {
-        if (dataToCompress !== "Null") {
-            const inputData = new TextEncoder().encode(dataToCompress);
-            const compressed = pako.gzip(inputData);
-            return compressed;
-        }
-        else {
-            toast.error("Cannot compress content");
-        }
-    };
-
-    const handleDecompress = (compressedData: BigUint64Array | Uint8Array) => {
-        if (compressedData) {
-            const decompressed = pako.ungzip(compressedData, { to: 'string' });
-            return decompressed;
-        }
-    };
-
-
-
+    function getImageSrc(picture: Uint8Array): string {
+        return `data:image/jpeg;base64,${(picture.toString())}`;
+    }
 
     return (
         <>
             <h1>All posts:</h1>
-            {/* <h1>{allPosts.length.toString()}</h1> */}
             {allPosts && allPosts.map((video) => {
                 return (
                     <div key={video.id}>
-                        <video width="640" height="480" controls key={videoKey}>
+                        <video width="640" height="480" controls key={videoKey} {...(video.picture && { poster: getImageSrc(video.picture) })}>
                             {video.content !== undefined && (
-                                // <source src={URL.createObjectURL(new Blob([video.content], { type: 'video/mp4' }))} type="video/mp4" />
-                                <source src={`data:video/mp4;base64,${video.content}`} type="video/mp4" />
+                                <source src={video.content} type="video/mp4"/>
                             )}
                             Your browser does not support the video tag.
                         </video>
@@ -339,11 +303,12 @@ function UploadVideo() {
                     {videoPreview && (
                         <div key={videoKey}>
                             <video width="640" height="480" controls key={videoKey}>
-                                <source src={URL.createObjectURL(new Blob([videoPreview]))} type="video/mp4" />
+                                <source src={`data:video/mp4;base64,${videoPreview}`} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                         </div>
                     )}
+
                 </div>
 
                 <Button type="submit" variant="contained" color="primary">

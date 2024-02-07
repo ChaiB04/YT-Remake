@@ -3,6 +3,7 @@ package be.ytbe.controller;
 import be.ytbe.business.PostManager;
 import be.ytbe.controller.converter.PostRequestsConverter;
 import be.ytbe.controller.dto.post.CreatePostRequest;
+import be.ytbe.external.GoogleCloudStorageClient;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostController {
     private final PostManager postManager;
+    private final GoogleCloudStorageClient googleCloudStorageClient;
 
     @GetMapping()
     public ResponseEntity<List<Post>> getAllPosts(){
@@ -33,7 +35,9 @@ public class PostController {
     //TODO Will have to add accesstoken to check access control
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody CreatePostRequest request){
-        final Post postToCreate = PostRequestsConverter.convertCreateRequest(request);
+        final String contentUrl = googleCloudStorageClient.uploadVideo(request.getContent());
+        final Post postToCreate = PostRequestsConverter.convertCreateRequest(request, contentUrl);
+
         final Post response = postManager.create(postToCreate);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

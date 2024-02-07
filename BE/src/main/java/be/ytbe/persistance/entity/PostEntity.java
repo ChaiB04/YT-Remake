@@ -18,7 +18,7 @@ public class PostEntity {
 
     private String title;
     private byte[] picture;
-    private Object content;
+    private String content;
     private String description;
     private UserEntity creator;
     private PostType postType;
