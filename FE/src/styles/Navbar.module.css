@@ -1,0 +1,23 @@
+.mainContainer {
+    display: flex;
+}
+
+.appBar {
+    z-index: 1201;
+    border-bottom: none;
+    box-shadow: none;
+    height: 65px;
+}
+
+.drawer {
+    width: 240px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.list{
+    margin-top: 65px;
+    height: 100vh;
+    width: 80px;
+    color: white;
+}

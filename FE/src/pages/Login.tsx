@@ -2,9 +2,6 @@ import User from '../domains/User';
 import { useState } from 'react';
 import LoginService from '../services/LoginService';
 import TextField from '@mui/material/TextField';
-// import { Grid } from '@mui/material';
-// import { styled } from '@mui/material/styles';
-// import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
@@ -82,6 +79,7 @@ function Login() {
                             name="password"
                             label="Password"
                             variant="filled"
+                            type='password'
                             onChange={handleInputChange}
                             sx={{
                                 marginBottom: 5,

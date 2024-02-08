@@ -9,11 +9,13 @@ import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './colorTheme.ts'
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from './components/Navbar.tsx';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<UploadVideo />} />
           <Route path="/login" element={<Login />} />
