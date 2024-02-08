@@ -43,11 +43,11 @@ function PostPage() {
   }
 
   return (
-    <Grid container spacing={3} justifyContent="center">
+    <Grid container spacing={3} justifyContent="flex-start">
       <Grid item xs={12} md={13}>
-        <Card>
+        <Card style={{ textAlign: 'left', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', padding: '16px' }}>
           <CardContent>
-            <Typography variant="h4" component="div">
+            <Typography variant="h4" component="div" style={{ marginBottom: '12px' }}>
               {post.title}
             </Typography>
             <Typography variant="body2" color="textSecondary">
@@ -58,7 +58,7 @@ function PostPage() {
                 Your browser does not support the video tag.
               </video>
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph style={{ marginTop: '12px' }}>
               {post.description}
             </Typography>
           </CardContent>
@@ -66,6 +66,7 @@ function PostPage() {
       </Grid>
     </Grid>
   );
+
 }
 
 export default PostPage;

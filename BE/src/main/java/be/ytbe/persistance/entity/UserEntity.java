@@ -19,14 +19,12 @@ public class UserEntity {
     private String id;
 
     @NotBlank
-    @Indexed(unique = true)
     private String username;
 
     @NotBlank
     private String password;
 
     @NotBlank
-    @Indexed(unique = true)
     private String email;
 
     private byte[] picture;
