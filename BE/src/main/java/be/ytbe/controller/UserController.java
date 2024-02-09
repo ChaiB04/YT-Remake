@@ -44,10 +44,12 @@ public class UserController {
     }
 
 
-    //TODO Will have to add accesstoken to check access control
     @PutMapping("{id}")
     public ResponseEntity<Void> updateUser(@PathVariable("id") final String id,
-                                           @RequestBody UpdateUserRequest request) {
+                                           @RequestBody UpdateUserRequest request,
+                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken) {
+        accessTokenManager.compareUserIdWithToken(accessToken, id);
+
         request.setId(id);
         final User updatedUser = UserRequestsConverter.convertUpdateRequest(request);
         userManager.update(updatedUser);
@@ -55,9 +57,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    //TODO Will have to add accesstoken to check access control
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id){
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id,
+                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
+        accessTokenManager.compareUserIdWithToken(accessToken, id);
+
         userManager.delete(id);
         return ResponseEntity.noContent().build();
     }
