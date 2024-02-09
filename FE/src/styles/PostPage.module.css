@@ -1,0 +1,48 @@
+.videoContainer {
+    display: flex;
+    flex-flow: column;
+    text-align: start;
+}
+
+.profileAvatar {
+    margin-bottom: 20px;
+}
+
+.creatorInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.creatorInfo div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.creatorInfo p {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+.creatorContainer {
+    display: flex;
+    align-items: center;
+}
+
+.likesButtonsContainer {
+    margin-bottom: 20px;
+}
+
+.likesButtonsContainer button {
+    color: black;
+}
+
+.likesButtonsContainer p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 5px;
+}

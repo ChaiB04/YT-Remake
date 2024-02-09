@@ -149,17 +149,6 @@ function UploadVideo() {
         }));
     };
 
-    function bigUint64ArrayToUint8Array(bigUintArray: BigUint64Array): Uint8Array {
-        const buffer = new ArrayBuffer(bigUintArray.length * 8);
-        const dataView = new DataView(buffer);
-
-        for (let i = 0; i < bigUintArray.length; i++) {
-            dataView.setBigUint64(i * 8, bigUintArray[i], true);
-        }
-
-        return new Uint8Array(buffer);
-    }
-
     function uint8ArrayToBase64String(uint8Array: Uint8Array): string {
         let binary = '';
         uint8Array.forEach((byte) => {
@@ -183,11 +172,10 @@ function UploadVideo() {
             picture: pictureBase64,
             content: formData.content,
             description: formData.description,
-            user: postUser,
+            creator: postUser,
             postType: formData.postType,
         };
 
-        console.log(newPost)
         try {
             const response = await PostService.create(newPost);
             console.log(response);
