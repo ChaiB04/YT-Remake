@@ -6,7 +6,7 @@ class User {
     username?: string;
     password?: string;
     email?: string;
-    picture?: number[];
+    picture?: number[] | Uint8Array;
     role?: Role;
 
     constructor(

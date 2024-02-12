@@ -12,7 +12,7 @@ interface UpdatePasswordProps {
         id?: string;
         email?: string;
         username?: string;
-        picture?: Uint8Array | undefined
+        picture?:Uint8Array | number[]
     };
 }
 

@@ -10,7 +10,7 @@ interface UpdateEmailAndUsernameProps {
         id?: string;
         email?: string;
         username?: string;
-        picture?: Uint8Array;
+        picture?: Uint8Array | number[] | undefined
     };
 }
 
@@ -18,7 +18,7 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
     const id = props.user.id;
     const [email, setEmail] = useState(props.user.email);
     const [username, setUsername] = useState(props.user.username);
-    const [picture, setPicture] = useState<Uint8Array | undefined>(props.user.picture);
+    const [picture, setPicture] = useState<Uint8Array | number[] | undefined>(props.user.picture);
     const [imagePreview, setImagePreview] = useState<string | undefined>(
         props.user.picture
             ? getImageSrc(props.user.picture)
@@ -28,7 +28,7 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
     const handleUpdate = async () => {
         try {
 
-            const pictureBase64 = picture && picture !== props.user.picture ? arrayBufferToBase64(picture) : picture;
+            const pictureBase64 = picture && picture !== props.user.picture ? arrayBufferToBase64(new Uint8Array(picture)) : picture;
 
             const updatedUser: object = {
                 id: id,
@@ -104,7 +104,7 @@ const UpdateEmailAndUsername: React.FC<UpdateEmailAndUsernameProps> = (props) =>
         }
     };
 
-    function getImageSrc(picture: Uint8Array | string): string {
+    function getImageSrc(picture: Uint8Array | string | number[]): string {
         return `data:image/jpeg;base64,${(picture.toString())}`;
     }
 
