@@ -24,9 +24,19 @@ function update(user: User) {
     return axios.put(`/user/${user.id}`, user)
 }
 
-function deleteUser(user: User) {
-    return axios.delete('/user', { data: user });
-  }
+function deleteUser(user: User, accessToken: string) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+            id: user.id,
+            password: user.password
+        }
+    };
+
+    return axios.delete('/user', config);
+}
 
 const UserService = {
     get,

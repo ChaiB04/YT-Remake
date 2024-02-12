@@ -5,21 +5,22 @@ import User from "../domains/User";
 import LoginService from '../services/LoginService';
 import { toast, ToastPosition } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/app/Store";
 
 
-interface UpdatePasswordProps {
+interface DeleteUserProps {
     user: {
         id?: string;
-        email?: string;
-        username?: string;
-        picture?:Uint8Array | number[]
+        password?: string;
     };
 }
 
-const DeleteAccount: React.FC<UpdatePasswordProps> = (props) => {
+const DeleteAccount: React.FC<DeleteUserProps> = (props) => {
 
     const navigate = useNavigate();
     const [currentPassword, setCurrentPassword] = useState("");
+    const token = useSelector((state: RootState) => state.usertoken) || "";
 
     const handleDelete = async () => {
         try {
@@ -38,8 +39,8 @@ const DeleteAccount: React.FC<UpdatePasswordProps> = (props) => {
             console.log(deleteUser)
 
 
-            await UserService.deleteUser(deleteUser)
-            toast.success("Successfully updated", { position: 'bottom-center' as ToastPosition })
+            await UserService.deleteUser(deleteUser, token)
+            toast.success("Successfully Deleted", { position: 'bottom-center' as ToastPosition })
             navigate("/login")
         }
         catch (error: any) {

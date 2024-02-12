@@ -49,7 +49,7 @@ function Profile() {
     //     }
     // };
 
-    function getImageSrc(picture: Uint8Array): string {
+    function getImageSrc(picture: Uint8Array | number[]): string {
         return `data:image/jpeg;base64,${(picture.toString())}`;
     }
 

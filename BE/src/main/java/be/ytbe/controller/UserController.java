@@ -58,13 +58,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id,
-//                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
-//        accessTokenManager.compareUserIdWithToken(accessToken, id);
-//
-//        userManager.delete(id);
-//
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteUser(@RequestBody DeleteUserRequest request,
+                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
+        accessTokenManager.compareUserIdWithToken(accessToken, request.getId());
+
+        User user = UserRequestsConverter.convertDeleteRequest(request);
+        userManager.delete(user);
+
+        return ResponseEntity.noContent().build();
+    }
 }
