@@ -1,102 +1,41 @@
-import User from '../domains/User';
+
+import { Box, Tab, Tabs } from '@mui/material';
+import LoginPage from '../components/Login';
+import CreateAccount from '../components/CreateAccount'
 import { useState } from 'react';
-import LoginService from '../services/LoginService';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import { Button } from '@mui/material';
-import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { login } from '../redux/features/userSlice';
-import { useNavigate } from 'react-router-dom';
-import theme from '../colorTheme.ts'
 
 function Login() {
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState(0);
 
-    const [formData, setFormData] = useState<User>({
-        email: "",
-        password: ""
-    });
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        try {
-
-            const newUser: User = {
-                email: formData.email,
-                password: formData.password
-            }
-
-            const response = await LoginService.login(newUser);
-
-            dispatch(login(response.data))
-
-            navigate("/")
-        }
-        catch (error) {
-            toast.error("error with logging in", {
-                autoClose: 5000,
-                draggable: false,
-            });
-        }
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
+    const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setSelectedTab(newValue);
     };
-
 
     return (
         <>
-            <Container component="main" maxWidth="xs" fixed >
-                <Paper sx={{
-                    margin: 5,
-                    color: theme.palette.primary.main
-                }}>
-                    <h1> Login </h1>
-                    <form onSubmit={handleSubmit}>
-                        <TextField
-                            id="email"
-                            name="email"
-                            label="Email"
-                            variant="filled"
-                            onChange={handleInputChange}
-                            sx={{
-                                margin: 5,
-                                color: theme.palette.primary.main
-                            }}
-                        />
 
-                        <TextField
-                            id="password"
-                            name="password"
-                            label="Password"
-                            variant="filled"
-                            type='password'
-                            onChange={handleInputChange}
-                            sx={{
-                                marginBottom: 5,
-                                color: theme.palette.primary.main
-                            }}
-                        />
+            <Box 
+            display="flex"
+            flexDirection="column"
+            height="100vh"
+            >
+                <Tabs
+                 value={selectedTab}
+                 onChange={handleTabChange}
+                 >
+                    <Tab label="Login"></Tab>
+                    <Tab label="Create account"></Tab>
+                </Tabs>
 
-                        <Button
-                            variant="contained"
-                            type='submit'
-                            sx={{
-                                margin: 5
-                            }}>Login</Button>
-                    </form>
+               
+                <Box p={3} flex="1" style={{ marginTop: '20px' }}>
+                    {selectedTab === 0 && < LoginPage/>}
+                    {selectedTab === 1 && < CreateAccount/>}
+                </Box>
+            </Box>
 
-                </Paper>
-            </Container>
+        
         </>
     )
 }

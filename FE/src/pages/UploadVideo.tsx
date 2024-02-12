@@ -13,16 +13,18 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import pako from "pako";
 import { toast } from "react-toastify";
+import { RootState } from "../redux/app/Store";
+
 
 function UploadVideo() {
-    const accessToken = useSelector((state: any) => state.usertoken);
+    const accesstoken = useSelector((state: RootState) => state.usertoken) || "";
     const navigate = useNavigate()
 
     const [user, setUser] = useState<User>({
         id: '',
         username: '',
         email: '',
-        picture: new Uint8Array,
+        picture: [],
         role: Role.DEFAULT
     });
 
@@ -31,7 +33,7 @@ function UploadVideo() {
         id: null || '',
         title: '',
         picture: new Uint8Array,
-        content: '',
+        content: "" || undefined,
         description: '',
         postType: PostType.DEFAULT
     });
@@ -42,19 +44,19 @@ function UploadVideo() {
     const [thumbnailPreview, setThumbnailPreview] = useState<string | ArrayBuffer | undefined>(undefined);
 
     useEffect(() => {
-        console.log(accessToken)
-        if (!accessToken) {
+        console.log(accesstoken)
+        if (!accesstoken) {
             navigate("/login")
         }
 
         fetchUser();
         getVideos();
 
-    }, [accessToken]);
+    }, [accesstoken]);
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken();
+            const response = await UserService.getByAccessToken(accesstoken);
             setUser(response.data);
         } catch (error) {
             console.error("Error fetching user:", error);

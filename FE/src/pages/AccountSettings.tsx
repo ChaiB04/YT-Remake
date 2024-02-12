@@ -7,9 +7,12 @@ import { useSelector } from 'react-redux';
 import { Tab, Tabs, Box } from "@mui/material";
 import UpdateEmailAndUsername from "../components/UpdateEmailAndUsername";
 import UpdatePassword from "../components/UpdatePassword";
+import { RootState } from "../redux/app/Store";
+import DeleteAccount from "../components/DeleteAccount";
+
 
 function AccountSettings() {
-    const accessToken = useSelector((state: any) => state.usertoken);
+    const accesstoken = useSelector((state: RootState) => state.usertoken);
     const [selectedTab, setSelectedTab] = useState(0);
     const navigate = useNavigate()
     const [user, setUser] = useState<User>({
@@ -22,18 +25,20 @@ function AccountSettings() {
     });
 
     useEffect(() => {
-        console.log(accessToken)
-        if (!accessToken) {
+
+        if (!accesstoken) {
             navigate("/login")
         }
 
         fetchUser();
-    }, [accessToken]);
+    }, [accesstoken]);
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken();
+            const token = accesstoken || "";
+            const response = await UserService.getByAccessToken(token);
             setUser(response.data);
+           
         } catch (error) {
             console.error("Error fetching user:", error);
         }
@@ -55,11 +60,13 @@ function AccountSettings() {
             >
                 <Tab label="Personal Data" />
                 <Tab label="Security Settings" />
+                <Tab label="Delete Account"/>
             </Tabs>
             {user.id && (
                 <Box p={3} flex="1" style={{ marginTop: '20px' }}>
                     {selectedTab === 0 && <UpdateEmailAndUsername user={user} />}
                     {selectedTab === 1 && <UpdatePassword user={user} />}
+                    {selectedTab === 2 && <DeleteAccount user={user} />}
                 </Box>
             )}
         </Box>

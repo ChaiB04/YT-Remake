@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { Avatar, Container, Typography, Paper } from "@mui/material";
 import UserService from "../services/UserService";
 import Role from '../enums/Role';
 import User from '../domains/User';
 import styles from '../styles/Profile.module.css';
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/app/Store";
 
 function Profile() {
-    const { id } = useParams();
+    // const { id } = useParams();
+    const accesstoken = useSelector((state: RootState) => state.usertoken);
     const [user, setUser] = useState<User>({
         id: '',
         username: '',
@@ -21,10 +24,10 @@ function Profile() {
         fetchUser();
     }, []);
 
-    const fetchUser = async () => {
-        if (id) {
+        const fetchUser = async () => {
+        if (accesstoken) {
             try {
-                const response = await UserService.get(id);
+                const response = await UserService.getByAccessToken(accesstoken);
                 setUser(response.data);
                 console.log(response)
             } catch (error) {
@@ -32,6 +35,19 @@ function Profile() {
             }
         }
     };
+    
+
+    // const fetchUser = async () => {
+    //     if (id) {
+    //         try {
+    //             const response = await UserService.get(id);
+    //             setUser(response.data);
+    //             console.log(response)
+    //         } catch (error) {
+    //             console.error("Error fetching user:", error);
+    //         }
+    //     }
+    // };
 
     function getImageSrc(picture: Uint8Array): string {
         return `data:image/jpeg;base64,${(picture.toString())}`;

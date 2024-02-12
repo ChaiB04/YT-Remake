@@ -4,6 +4,7 @@ import be.ytbe.business.AccessTokenManager;
 import be.ytbe.business.UserManager;
 import be.ytbe.controller.converter.UserRequestsConverter;
 import be.ytbe.controller.dto.user.CreateUserRequest;
+import be.ytbe.controller.dto.user.DeleteUserRequest;
 import be.ytbe.controller.dto.user.UpdateUserRequest;
 import be.ytbe.domain.User;
 import lombok.AllArgsConstructor;
@@ -57,12 +58,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id,
-                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
-        accessTokenManager.compareUserIdWithToken(accessToken, id);
-
-        userManager.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable("id") final String id,
+//                                           @RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken){
+//        accessTokenManager.compareUserIdWithToken(accessToken, id);
+//
+//        userManager.delete(id);
+//
+//        return ResponseEntity.noContent().build();
+//    }
 }

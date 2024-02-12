@@ -1,6 +1,7 @@
 package be.ytbe.controller.converter;
 
 import be.ytbe.controller.dto.user.CreateUserRequest;
+import be.ytbe.controller.dto.user.DeleteUserRequest;
 import be.ytbe.controller.dto.user.UpdateUserRequest;
 import be.ytbe.domain.User;
 
@@ -26,6 +27,13 @@ public final class UserRequestsConverter {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .picture(request.getPicture())
+                .build();
+    }
+
+    public static User convertDeleteRequest(DeleteUserRequest request){
+        return User.builder()
+                .id(request.getId())
+                .password(request.getPassword())
                 .build();
     }
 }
