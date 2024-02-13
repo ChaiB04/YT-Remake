@@ -14,18 +14,6 @@ import Home from './pages/Home';
 
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#6B5BD3"
-      },
-      secondary:{
-        main: "#303F9F"
-      }
-    },
-  });
-
-
   return (
     <ThemeProvider theme={theme}>
       <Router>
