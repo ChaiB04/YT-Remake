@@ -6,6 +6,7 @@ import Post from "../domains/Post";
 import { AxiosResponse } from "axios";
 import PostService from "../services/PostService";
 import VideoCard from "../components/VideoCard";
+import { Rowing } from "@mui/icons-material";
 
 function index() {
 
@@ -33,10 +34,33 @@ function index() {
 
     return (
         <>
+            <Grid container wrap="nowrap" width='100vw'>
+                <Grid item>
+                    <div className={styles.banner}></div>
+                </Grid>
+                <Grid item>
+                    <div className={styles.content}>
 
-            <div className={styles.container}>
+                        <Grid container spacing={2} className={styles.videocontainer}>
+                            {allPosts && allPosts.map((video) => {
+                                return (
+                                    <Grid container flexDirection='row'>
+                                        <Item>
+                                            <div key={video.id}>
+                                                <VideoCard video={video} />
+                                            </div>
+                                        </Item>
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
 
-                {/* <div className={styles.banner}></div> */}
+                    </div>
+                </Grid>
+            </Grid>
+            {/* <div className={styles.container}>
+
+                <section className={styles.banner}></section>
                 <div className={styles.content}>
 
                     <Grid container spacing={2} className={styles.videocontainer}>
@@ -54,7 +78,7 @@ function index() {
                     </Grid>
 
                 </div>
-            </div>
+            </div> */}
 
         </>
     );
