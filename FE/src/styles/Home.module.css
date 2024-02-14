@@ -1,0 +1,22 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .content {
+    height: 100%;
+    background-color: purple;
+    width: 100%;
+  }
+  
+  .banner {
+    height: 50%;
+    background-color: blue;
+    width: 100%;
+    position: absolute;
+  }
+
+  .videocontainer{
+    margin: 50px;
+  }

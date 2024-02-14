@@ -127,9 +127,9 @@ function CreateAccount() {
                                 variant="outlined"
                                 onChange={handleInputChange}
                                 sx={{
-                                    margin: 2.5,
-                                    width: 500
-
+                                    marginTop: '20px',
+                                    width: '100%', 
+                                 
                                 }}
 
                             />
@@ -142,8 +142,8 @@ function CreateAccount() {
                                 variant="outlined"
                                 onChange={handleInputChange}
                                 sx={{
-                                    margin: 2.5,
-                                    width: 500
+                                    marginTop: '20px',
+                                    width: '100%', 
 
                                 }}
                             // InputProps={{
@@ -162,8 +162,8 @@ function CreateAccount() {
                                 variant="outlined"
                                 onChange={handleInputChange}
                                 sx={{
-                                    margin: 2.5,
-                                    width: 500
+                                    marginTop: '20px',
+                                    width: '100%', 
 
                                 }}
                             // InputProps={{
@@ -179,9 +179,9 @@ function CreateAccount() {
                                 variant="contained"
                                 type='submit'
                                 sx={{
-                                    margin: 5,
-                                    width: 500,
-                                    height: 50
+                                    marginTop: '20px',
+                                    width: '100%', 
+                                    height: '50px'
                                 }}>Create</Button>
                         </Grid>
                     </form>

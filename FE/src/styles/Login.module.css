@@ -5,3 +5,8 @@
     align-items: center;
 }
 
+.box{
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+}

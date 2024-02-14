@@ -71,8 +71,8 @@ function Login(){
                                 variant="outlined"
                                 onChange={handleInputChange}
                                 sx={{
-                                    margin: 2.5,
-                                    width: 500,
+                                    marginTop: '20px',
+                                    width: '100%',
                                     backgroundColor: "#2c1468",
 
                                 }}
@@ -92,8 +92,8 @@ function Login(){
                                 variant="outlined"
                                 onChange={handleInputChange}
                                 sx={{
-                                    margin: 2.5,
-                                    width: 500,
+                                    marginTop: '20px',
+                                    width: '100%',
                                     backgroundColor: "#2c1468"
 
                                 }}
@@ -110,8 +110,8 @@ function Login(){
                                 variant="contained"
                                 type='submit'
                                 sx={{
-                                    margin: 5,
-                                    width: 500,
+                                    marginTop: '20px',
+                                    width: '100%', 
                                     height: 50
                                 }}>Login</Button>
                         </Grid>
