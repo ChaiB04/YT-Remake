@@ -16,6 +16,7 @@ public final class PostRequestsConverter {
                 .description(request.getDescription())
                 .creator(request.getCreator())
                 .postType(request.getPostType())
+                .tags(request.getTags())
                 .build();
     }
 }

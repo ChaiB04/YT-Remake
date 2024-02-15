@@ -152,13 +152,26 @@ function UploadVideo() {
 
     const handleAddTag = () => {
         if (newTag.trim() !== '') {
+            const tagToAdd = toCamelCase(newTag);
             setFormData((prevData) => ({
                 ...prevData,
-                tags: prevData.tags ? [...prevData.tags, newTag.trim()] : [newTag.trim()],
+                tags: prevData.tags ? [...prevData.tags, tagToAdd.trim()] : [tagToAdd.trim()],
             }));
             setNewTag('');
         }
     };
+
+    const toCamelCase = (inputString: string): string => {
+        const words = inputString.split(/\s+/);
+      
+        const camelCaseWords = words.map((word, index) =>
+          index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        );
+      
+        const camelCaseString = camelCaseWords.join('');
+      
+        return camelCaseString;
+      }   
 
     const handleRemoveTag = (index: number) => {
         setFormData((prevData) => ({
@@ -196,6 +209,7 @@ function UploadVideo() {
             description: formData.description,
             creator: postUser,
             postType: formData.postType,
+            tags: formData.tags
         };
 
         try {
@@ -206,29 +220,8 @@ function UploadVideo() {
         }
     };
 
-    function getImageSrc(picture: Uint8Array): string {
-        return `data:image/jpeg;base64,${(picture.toString())}`;
-    }
-
     return (
         <>
-            {/* <h1>All posts:</h1>
-            {allPosts && allPosts.map((video) => {
-                return (
-                    <div key={video.id}>
-                        <video width="640" height="480" controls key={videoKey} {...(video.picture && { poster: getImageSrc(video.picture) })}>
-                            {video.content !== undefined && (
-                                <source src={video.content} type="video/mp4"/>
-                            )}
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                )
-            }
-
-            )}
-
-            <br /> */}
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Title"

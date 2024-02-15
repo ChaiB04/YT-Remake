@@ -16,4 +16,5 @@ public class CreatePostRequest {
     private String description;
     private User creator;
     private PostType postType;
+    private String[] tags;
 }

@@ -14,4 +14,5 @@ public class Post {
     private String description;
     private User creator;
     private PostType postType;
+    private String[] tags;
 }

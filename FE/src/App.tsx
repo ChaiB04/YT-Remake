@@ -6,7 +6,7 @@ import AccountSettings from './pages/AccountSettings';
 import Login from './pages/Login';
 import PostPage from './pages/PostPage';
 import { ToastContainer } from 'react-toastify';
-import { ThemeProvider, createTheme  } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from './colorTheme.ts'
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar.tsx';
@@ -23,7 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/uploadvideo" element={<UploadVideo />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route path="/account-settings" element={<AccountSettings />} />
           <Route path="/posts/:id" element={<PostPage />} />
         </Routes>
