@@ -10,13 +10,13 @@ import { Rowing } from "@mui/icons-material";
 
 function index() {
 
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
+    // const Item = styled(Pper)(({ theme }) => ({
+    //     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    //     ...theme.typography.body2,
+    //     // padding: theme.spacing(5),
+    //     textAlign: 'center',
+    //     color: theme.palette.text.secondary,
+    // }));
 
 
     const [allPosts, setAllPosts] = useState<Post[]>([]);
@@ -41,15 +41,15 @@ function index() {
                 <Grid item>
                     <div className={styles.content}>
 
-                        <Grid container spacing={2} className={styles.videocontainer}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {allPosts && allPosts.map((video) => {
                                 return (
-                                    <Grid container flexDirection='row'>
-                                        <Item>
+                                    <Grid item xs={2} sm={4} md={4} key={video.id}>
+                                        {/* <Item> */}
                                             <div key={video.id}>
                                                 <VideoCard video={video} />
                                             </div>
-                                        </Item>
+                                        {/* </Item> */}
                                     </Grid>
                                 )
                             })}
