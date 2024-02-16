@@ -9,6 +9,10 @@ function get(id: string){
     return axios.get(`/post/${id}`)
 }
 
+function getByTitle(title: string){
+    return axios.get(`/post/title`, { params: { title } })
+}
+
 function create(post: Post){
     return axios.post("/post", post)
 }
@@ -17,6 +21,7 @@ function create(post: Post){
 const PostService = {
     getAll,
     get,
+    getByTitle,
     create
 }
 

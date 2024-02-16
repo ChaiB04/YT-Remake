@@ -41,9 +41,7 @@ const VideoCard: React.FC<VideoProps> = (props) => {
 
     async function fetchCreator() {
         try {
-            console.log(props.video.creator?.id)
             const response = await UserService.get(props.video.creator?.id || "");
-            console.log(response.data)
             setCreator(response.data); 
         } catch (error) {
             console.error('Error fetching creator:', error);

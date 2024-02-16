@@ -19,12 +19,20 @@ function index() {
             setLoading(false);
         }, 2000);
 
+        getPostsByTitle()
+
     }, [])
 
     async function getVideos() {
         const response: AxiosResponse<Post[]> = await PostService.getAll();
         const posts = response.data;
         setAllPosts(posts);
+    }
+
+    const getPostsByTitle = () => {
+        const response = PostService.getByTitle("duck")
+
+        console.log(response)
     }
 
 

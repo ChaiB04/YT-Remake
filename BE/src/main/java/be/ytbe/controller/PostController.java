@@ -28,6 +28,13 @@ public class PostController {
         return ResponseEntity.ok().body(posts);
     }
 
+    @GetMapping("/title")
+    public ResponseEntity<List<Post>> getPostsByTitle(@RequestParam String title){
+        final List<Post> posts = postManager.getByTitle(title);
+
+        return ResponseEntity.ok().body(posts);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Post> getPost(@PathVariable(value = "id") final String id){
         final Post post = postManager.get(id);

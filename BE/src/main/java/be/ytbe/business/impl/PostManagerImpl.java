@@ -9,16 +9,18 @@ import be.ytbe.persistance.PostRepository;
 import be.ytbe.persistance.entity.PostEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import java.util.*;
 
 import java.lang.reflect.Field;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
 @AllArgsConstructor
 public class PostManagerImpl implements PostManager {
     private final PostRepository postRepository;
+    private Set<String> stopWords = new HashSet<>(Arrays.asList("the", "that", "this", "and", "is", "in", "it", "of")) ;
 
     public Post get(String id){
         try{
@@ -35,6 +37,37 @@ public class PostManagerImpl implements PostManager {
 //            throw new PostNotFoundException();
             throw ex;
         }
+    }
+
+    @Override
+    public List<Post> getByTitle(String title) {
+        Map<Post, Integer> results = new HashMap<>();
+        String[] titleWords = title.toLowerCase().split(" ");
+
+        List<String> nonStopWords = Arrays.asList(titleWords);
+        nonStopWords.removeAll(stopWords);
+
+        for (String word : nonStopWords) {
+            List<Post> posts = postRepository.findByTitleContainingIgnoreCase(word).stream()
+                    .map(PostConverter::convertToDomain)
+                    .toList();
+
+            for (Post post : posts) {
+                results.entrySet().stream()
+                        .filter(p -> p.getKey().getId().equals(post.getId()))
+                        .findFirst()
+                        .ifPresentOrElse(
+                                p -> results.merge(p.getKey(), 1, Integer::sum),
+                                () -> results.put(post, 1)
+                        );
+
+            }
+        }
+
+        return results.entrySet().stream()
+                .sorted(Map.Entry.<Post, Integer>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public List<Post> getAll(){
