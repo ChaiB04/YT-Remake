@@ -34,17 +34,17 @@ function index() {
 
     return (
         <>
-            <Grid container wrap="nowrap" width='100vw'>
+            <Grid container wrap="nowrap" className={styles.container}>
                 <Grid item>
                     <div className={styles.banner}></div>
                 </Grid>
                 <Grid item>
                     <div className={styles.content}>
 
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} paddingTop={5} paddingLeft={3}>
                             {allPosts && allPosts.map((video) => {
                                 return (
-                                    <Grid item xs={2} sm={4} md={4} key={video.id}>
+                                    <Grid item xs={2} sm={4} md={4} key={video.id} >
                                         {/* <Item> */}
                                             <div key={video.id}>
                                                 <VideoCard video={video} />
@@ -68,7 +68,7 @@ function index() {
                             return (
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                     <Item>
-                                        <div key={video.id}>
+                                        <div key={video.id}>3
                                             <VideoCard video={video} />
                                         </div>
                                     </Item>

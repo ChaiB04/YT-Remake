@@ -23,7 +23,7 @@ const Navbar = () => {
                     <h2>Navbar</h2>
                 </Toolbar>
             </AppBar>
-            {/* <Drawer variant="permanent" anchor="left" className={styles.drawer}>
+            <Drawer variant="permanent" anchor="left" className={styles.drawer}>
                 <List style={{ backgroundColor: theme.palette.primary.main, marginTop: 65 }} className={styles.list}>
                     <ListItemButton>
                         <ListItemText primary="link" />
@@ -35,7 +35,7 @@ const Navbar = () => {
                         <ListItemText primary="logout" onClick={handleLogout} />
                     </ListItemButton>
                 </List>
-            </Drawer> */}
+            </Drawer>
         </div>
     );
 };

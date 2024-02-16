@@ -1,23 +1,26 @@
-/* .container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-  }
-   */
-  .content {
-    height: 50%;
-    background-color: purple;
-    width: 100vw;
-    margin-top: 50%;
-  }
+.container {
+  width: calc(100vw - 80px);
+  height: 100vh;
+  overflow-x: hidden;
+  padding-left: 80px;
   
-  .banner {
-    height: 50%;
-    background-color: blue;
-    width: 100%;
-    position: absolute;
-  }
+}
 
-  /* .videocontainer{
+
+.content {
+  height: 50vh;
+  background-color: purple;
+  width: calc(100vw - 80px);
+  margin-top: 50vh;
+}
+
+.banner {
+  height: 50vh;
+  background-color: blue;
+  width: calc(100vw - 80px);
+  position: absolute;
+}
+
+/* .videocontainer{
     margin: 50px;
   } */
