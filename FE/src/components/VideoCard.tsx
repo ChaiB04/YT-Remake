@@ -16,6 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from "react-router-dom";
 
 
 interface VideoProps {
@@ -30,6 +31,8 @@ interface VideoProps {
 
 
 const VideoCard: React.FC<VideoProps> = (props) => {
+
+    const navigate = useNavigate();
     function getImageSrc(picture: Uint8Array): string {
         return `data:image/jpeg;base64,${(picture.toString())}`;
     }
@@ -45,6 +48,7 @@ const VideoCard: React.FC<VideoProps> = (props) => {
                     }
                     title={props.video.title}
                     subheader="September 14, 2016"
+                    onClick={()=> {navigate("posts/" + props.video.id)}}
                 />
                 <CardMedia
                     component="img"
