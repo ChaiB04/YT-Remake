@@ -59,7 +59,7 @@ function PostPage() {
   }
 
   return (
-    <Grid container spacing={3} justifyContent="flex-start" marginTop={10}>
+    <Grid container spacing={3} justifyContent="center" marginTop={10} marginLeft={13}>
       <Grid item xs={12} md={13}>
         <div className={styles.videoContainer}>
           <Typography variant="body2" color="primary" >
