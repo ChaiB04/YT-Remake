@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PostManagerImpl implements PostManager {
     private final PostRepository postRepository;
-    private Set<String> stopWords = new HashSet<>(Arrays.asList("the", "that", "this", "and", "is", "in", "it", "of")) ;
 
     public Post get(String id){
         try{
@@ -41,6 +40,8 @@ public class PostManagerImpl implements PostManager {
 
     @Override
     public List<Post> getByTitle(String title) {
+        Set<String> stopWords = new HashSet<>(Arrays.asList("a", "an", "the", "that", "this", "and", "is", "in", "it", "of")) ;
+
         Map<Post, Integer> results = new HashMap<>();
         String[] titleWords = title.toLowerCase().split(" ");
 
