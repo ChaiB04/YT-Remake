@@ -13,9 +13,10 @@ import UserService from "../services/UserService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import theme from '../colorTheme'
+import { RootState } from "../redux/app/Store";
 
 function UploadVideo() {
-    const accessToken = useSelector((state: any) => state.usertoken);
+    const accessToken = useSelector((state: RootState) => state.usertoken) || "";
     const navigate = useNavigate()
 
     const [user, setUser] = useState<User>({
@@ -55,7 +56,7 @@ function UploadVideo() {
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken();
+            const response = await UserService.getByAccessToken(accessToken);
             setUser(response.data);
         } catch (error) {
             console.error("Error fetching user:", error);
