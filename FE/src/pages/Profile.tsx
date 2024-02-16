@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Avatar, Container, Typography, Paper } from "@mui/material";
 import UserService from "../services/UserService";
 import Role from '../enums/Role';
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/app/Store";
 
 function Profile() {
-    // const { id } = useParams();
+    const { id } = useParams();
     const accesstoken = useSelector((state: RootState) => state.usertoken);
     const [user, setUser] = useState<User>({
         id: '',
@@ -25,9 +25,9 @@ function Profile() {
     }, []);
 
         const fetchUser = async () => {
-        if (accesstoken) {
+        if (id) {
             try {
-                const response = await UserService.getByAccessToken(accesstoken);
+                const response = await UserService.get(id);
                 setUser(response.data);
                 console.log(response)
             } catch (error) {

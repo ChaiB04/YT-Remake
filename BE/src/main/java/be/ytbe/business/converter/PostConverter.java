@@ -22,6 +22,7 @@ public final class PostConverter {
                 .description(postEntity.getDescription())
                 .creator(UserConverter.convertToDomain(postEntity.getCreator()))
                 .postType(postEntity.getPostType())
+                .tags(postEntity.getTags())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public final class PostConverter {
                 .description(post.getDescription())
                 .creator(UserConverter.convertToEntity(post.getCreator()))
                 .postType(post.getPostType())
+                .tags(post.getTags())
                 .build();
     }
 }

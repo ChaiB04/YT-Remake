@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
 import PostService from "../services/PostService";
 import { AxiosResponse } from 'axios';
 import { ChangeEvent } from "react";
@@ -11,20 +12,17 @@ import Role from "../enums/Role";
 import UserService from "../services/UserService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import pako from "pako";
-import { toast } from "react-toastify";
-import { RootState } from "../redux/app/Store";
-
+import theme from '../colorTheme'
 
 function UploadVideo() {
-    const accesstoken = useSelector((state: RootState) => state.usertoken) || "";
+    const accessToken = useSelector((state: any) => state.usertoken);
     const navigate = useNavigate()
 
     const [user, setUser] = useState<User>({
         id: '',
         username: '',
         email: '',
-        picture: [],
+        picture: new Uint8Array,
         role: Role.DEFAULT
     });
 
@@ -33,30 +31,31 @@ function UploadVideo() {
         id: null || '',
         title: '',
         picture: new Uint8Array,
-        content: "" || undefined,
+        content: '',
         description: '',
-        postType: PostType.DEFAULT
+        postType: PostType.DEFAULT,
+        tags: [] as string[]
     });
 
-
+    const [newTag, setNewTag] = useState('');
     const [videoPreview, setVideoPreview] = useState<string | ArrayBuffer | undefined>(undefined);
     const [videoKey, setVideoKey] = useState(Date.now());
     const [thumbnailPreview, setThumbnailPreview] = useState<string | ArrayBuffer | undefined>(undefined);
 
     useEffect(() => {
-        console.log(accesstoken)
-        if (!accesstoken) {
+        console.log(accessToken)
+        if (!accessToken) {
             navigate("/login")
         }
 
         fetchUser();
         getVideos();
 
-    }, [accesstoken]);
+    }, [accessToken]);
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken(accesstoken);
+            const response = await UserService.getByAccessToken();
             setUser(response.data);
         } catch (error) {
             console.error("Error fetching user:", error);
@@ -72,34 +71,34 @@ function UploadVideo() {
 
     const handleFileSelect = async (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-    
+
         const fileInput = event.target;
         const file = fileInput.files && fileInput.files[0];
-    
+
         if (file) {
             try {
                 const reader = new FileReader();
-    
+
                 reader.onload = (e: ProgressEvent<FileReader>) => {
                     const result = e.target?.result;
-    
+
                     if (result) {
                         let base64String: string;
-    
+
                         if (typeof result === 'string') {
-                            base64String = result.split(',')[1]; 
+                            base64String = result.split(',')[1];
                         } else {
                             const arrayBuffer = result as ArrayBuffer;
                             const uint8Array = new Uint8Array(arrayBuffer);
                             base64String = uint8ArrayToBase64String(uint8Array);
                         }
-    
+
                         setVideoPreview(base64String);
                         setVideoKey(Date.now());
                         setFormData({ ...formData, content: base64String });
                     }
                 };
-    
+
                 reader.readAsArrayBuffer(file);
             } catch (error) {
                 console.error(error);
@@ -107,7 +106,7 @@ function UploadVideo() {
             }
         }
     };
-    
+
 
     const handleThumbnailSelect = async (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -151,6 +150,40 @@ function UploadVideo() {
         }));
     };
 
+    const handleAddTag = () => {
+        if (newTag.trim() !== '') {
+            const tagToAdd = toCamelCase(newTag);
+            setFormData((prevData) => ({
+                ...prevData,
+                tags: prevData.tags ? [...prevData.tags, tagToAdd.trim()] : [tagToAdd.trim()],
+            }));
+            setNewTag('');
+        }
+    };
+
+    const toCamelCase = (inputString: string): string => {
+        const words = inputString.split(/\s+/);
+      
+        const camelCaseWords = words.map((word, index) =>
+          index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        );
+      
+        const camelCaseString = camelCaseWords.join('');
+      
+        return camelCaseString;
+      }   
+
+    const handleRemoveTag = (index: number) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            tags: prevData.tags ? [...prevData.tags.slice(0, index), ...prevData.tags.slice(index + 1)] : [],
+        }));
+    };
+
+    const handleTagInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewTag(e.target.value);
+    };
+
     function uint8ArrayToBase64String(uint8Array: Uint8Array): string {
         let binary = '';
         uint8Array.forEach((byte) => {
@@ -176,6 +209,7 @@ function UploadVideo() {
             description: formData.description,
             creator: postUser,
             postType: formData.postType,
+            tags: formData.tags
         };
 
         try {
@@ -186,29 +220,8 @@ function UploadVideo() {
         }
     };
 
-    function getImageSrc(picture: Uint8Array): string {
-        return `data:image/jpeg;base64,${(picture.toString())}`;
-    }
-
     return (
         <>
-            <h1>All posts:</h1>
-            {allPosts && allPosts.map((video) => {
-                return (
-                    <div key={video.id}>
-                        <video width="640" height="480" controls key={videoKey} {...(video.picture && { poster: getImageSrc(video.picture) })}>
-                            {video.content !== undefined && (
-                                <source src={video.content} type="video/mp4"/>
-                            )}
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                )
-            }
-
-            )}
-
-            <br />
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Title"
@@ -300,6 +313,47 @@ function UploadVideo() {
                     )}
 
                 </div>
+
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                        label="Tag"
+                        value={newTag}
+                        onChange={handleTagInputChange}
+                    />
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleAddTag}
+                    >
+                        Add Tag
+                    </Button>
+                </div>
+                {formData.tags && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {formData.tags.map((tag, index) => (
+                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                <div
+                                    style={{
+                                        backgroundColor: theme.palette.primary.main,
+                                        borderRadius: '12px',
+                                        padding: '4px 8px',
+                                        marginRight: '8px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <p style={{ color: 'white', margin: 0 }}>{tag}</p>
+                                    <IconButton
+                                        onClick={() => handleRemoveTag(index)}
+                                        style={{ marginLeft: '4px', color: 'white' }}
+                                    >
+                                        <CloseIcon fontSize="small" />
+                                    </IconButton>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <Button type="submit" variant="contained" color="primary">
                     Submit

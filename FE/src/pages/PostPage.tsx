@@ -22,6 +22,7 @@ function PostPage() {
     content: '',
     description: '',
     postType: PostType.DEFAULT,
+    tags: [] as string[]
   });
 
   const [postCreator, setPostCreator] = useState({
@@ -99,6 +100,11 @@ function PostPage() {
             </IconButton>
           </div>
           <div style={{ borderRadius: '10px', overflow: 'hidden', backgroundColor: '#f0f0f0', padding: '16px' }}>
+            <Typography variant="body1" paragraph style={{ color: 'grey' }}>
+              {post.tags && post.tags.map((tag, index) => (
+                <span key={index}>#{tag} </span>
+              ))}
+            </Typography>
             <Typography variant="body1" paragraph>
               {post.description}
             </Typography>

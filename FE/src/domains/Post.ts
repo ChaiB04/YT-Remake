@@ -5,10 +5,11 @@ class Post {
     id?: string;
     title?: string;
     picture?: Uint8Array;
-    content?:  string | undefined;
+    content?: string;
     description?: string;
-    user?: User;
+    creator?: User;
     postType?: PostType;
+    tags?: string[]
   
     constructor(
       id?: string,
@@ -16,16 +17,18 @@ class Post {
       picture?: Uint8Array,
       content?: string,
       description?: string,
-      user?: User,
-      postType?: PostType
+      creator?: User,
+      postType?: PostType,
+      tags?: string[]
     ) {
       this.id = id;
       this.title = title;
       this.picture = picture;
       this.content = content;
       this.description = description;
-      this.user = user;
+      this.creator = creator;
       this.postType = postType;
+      this.tags = tags;
     }
   }
 

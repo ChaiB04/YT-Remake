@@ -22,4 +22,5 @@ public class PostEntity {
     private String description;
     private UserEntity creator;
     private PostType postType;
+    private String[] tags;
 }
