@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/user")
@@ -26,6 +28,12 @@ public class UserController {
         final User user = userManager.get(id);
 
         return ResponseEntity.ok().body(user);
+    }
+    @GetMapping("/username")
+    public ResponseEntity<List<User>> getPostsByTitle(@RequestParam String username){
+        final List<User> users = userManager.getByUsernameContains(username);
+
+        return ResponseEntity.ok().body(users);
     }
 
     @GetMapping("/accessToken")

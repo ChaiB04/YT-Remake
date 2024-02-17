@@ -56,7 +56,7 @@ const VideoCard: React.FC<VideoProps> = (props) => {
                 }
                 title={props.video.title}
                 subheader="September 14, 2016"
-                onClick={() => navigate("posts/" + props.video.id)}
+                onClick={() => navigate("/posts/" + props.video.id)}
             />
                 <CardMedia
                     component="img"

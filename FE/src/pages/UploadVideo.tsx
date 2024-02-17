@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import theme from '../colorTheme'
 import { RootState } from "../redux/app/Store";
+import styles from '../styles/UploadVideo.module.css'
 
 function UploadVideo() {
     const accessToken = useSelector((state: RootState) => state.usertoken) || "";
@@ -56,7 +57,7 @@ function UploadVideo() {
 
     const fetchUser = async () => {
         try {
-            const response = await UserService.getByAccessToken(accessToken);
+            const response = await UserService.getByAccessToken();
             setUser(response.data);
         } catch (error) {
             console.error("Error fetching user:", error);
@@ -200,7 +201,8 @@ function UploadVideo() {
         const pictureBase64 = formData.picture ? uint8ArrayToBase64String(formData.picture) : null
 
         const postUser: User = {
-            id: user.id
+            id: user.id,
+            username: user.username
         };
 
         const newPost: object = {
@@ -222,7 +224,7 @@ function UploadVideo() {
     };
 
     return (
-        <>
+        <div className={styles.uploadContainer}>
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Title"
@@ -360,7 +362,7 @@ function UploadVideo() {
                     Submit
                 </Button>
             </form>
-        </>
+        </div>
     );
 }
 

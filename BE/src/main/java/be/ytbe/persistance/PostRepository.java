@@ -7,5 +7,6 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface PostRepository extends MongoRepository<PostEntity, String> {
-    List<PostEntity> findByTitleContainingIgnoreCase(String searchString);
+    @Query("{'$or':[{'title': {'$regex' : ?0, '$options' : 'i'}}, {'creator.username': {'$regex' : ?0, '$options' : 'i'}}]}")
+    List<PostEntity> findByTitleOrCreatorUsernameIgnoreCase(String searchString);
 }

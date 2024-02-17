@@ -13,7 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.util.Strings.isEmpty;
 
@@ -38,6 +39,34 @@ public class  UserManagerImpl implements UserManager {
             throw new UserException("Something went wrong");
         }
 
+    }
+
+    @Override
+    public List<User> getByUsernameContains(String username) {
+        Map<User, Integer> results = new HashMap<>();
+        String[] usernameWords = username.toLowerCase().split(" ");
+
+        for (String word : usernameWords) {
+            List<User> users = userRepository.findByUsernameContainingIgnoreCase(word).stream()
+                    .map(UserConverter::convertToDomain)
+                    .toList();
+
+            for (User user : users) {
+                results.entrySet().stream()
+                        .filter(u -> u.getKey().getId().equals(user.getId()))
+                        .findFirst()
+                        .ifPresentOrElse(
+                                u -> results.merge(u.getKey(), 1, Integer::sum),
+                                () -> results.put(user, 1)
+                        );
+
+            }
+        }
+
+        return results.entrySet().stream()
+                .sorted(Map.Entry.<User, Integer>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public User create(User newUser){

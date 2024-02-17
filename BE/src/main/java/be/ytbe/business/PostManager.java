@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PostManager {
     Post get(String id);
-    List<Post> getByTitle(String title);
+    List<Post> getByTitleContains(String title);
     List<Post> getAll();
     Post create(Post post);
 

@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping("/title")
     public ResponseEntity<List<Post>> getPostsByTitle(@RequestParam String title){
-        final List<Post> posts = postManager.getByTitle(title);
+        final List<Post> posts = postManager.getByTitleContains(title);
 
         return ResponseEntity.ok().body(posts);
     }

@@ -6,14 +6,12 @@ function get(id: string) {
     return axios.get(`/user/${id}`)
 }
 
-function getByAccessToken(accessToken: string) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-    };
+function getByUsername(username: string){
+    return axios.get(`/user/username`, { params: { username } })
+}
 
-    return axios.get(`/user/accessToken`, config)
+function getByAccessToken() {
+    return axios.get(`/user/accessToken`)
 }
 
 function create(user: User) {
@@ -40,6 +38,7 @@ function deleteUser(user: User, accessToken: string) {
 
 const UserService = {
     get,
+    getByUsername,
     getByAccessToken,
     create,
     update,

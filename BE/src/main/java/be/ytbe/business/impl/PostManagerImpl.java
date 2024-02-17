@@ -17,9 +17,14 @@ import java.util.stream.Collectors;
 
 
 @Service
-@AllArgsConstructor
 public class PostManagerImpl implements PostManager {
     private final PostRepository postRepository;
+    private final Set<String> stopWords;
+
+    public PostManagerImpl(PostRepository postRepository){
+        this.postRepository = postRepository;
+        stopWords = new HashSet<>(Arrays.asList("a", "an", "the", "that", "this", "and", "is", "in", "it", "of"));
+    }
 
     public Post get(String id){
         try{
@@ -39,9 +44,7 @@ public class PostManagerImpl implements PostManager {
     }
 
     @Override
-    public List<Post> getByTitle(String title) {
-        Set<String> stopWords = new HashSet<>(Arrays.asList("a", "an", "the", "that", "this", "and", "is", "in", "it", "of")) ;
-
+    public List<Post> getByTitleContains(String title) {
         Map<Post, Integer> results = new HashMap<>();
         String[] titleWords = title.toLowerCase().split(" ");
 
@@ -49,7 +52,7 @@ public class PostManagerImpl implements PostManager {
         nonStopWords.removeAll(stopWords);
 
         for (String word : nonStopWords) {
-            List<Post> posts = postRepository.findByTitleContainingIgnoreCase(word).stream()
+            List<Post> posts = postRepository.findByTitleOrCreatorUsernameIgnoreCase(word).stream()
                     .map(PostConverter::convertToDomain)
                     .toList();
 

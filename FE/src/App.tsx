@@ -11,6 +11,7 @@ import theme from './colorTheme.ts'
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar.tsx';
 import Home from './pages/Home';
+import SearchResults from './pages/SearchResults.tsx';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/account-settings" element={<AccountSettings />} />
           <Route path="/posts/:id" element={<PostPage />} />
+          <Route path="/results" element={<SearchResults />} />
+
         </Routes>
         <ToastContainer/>
       </Router>
