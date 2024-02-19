@@ -2,15 +2,16 @@ import User from '../domains/User';
 import { useState } from 'react';
 import LoginService from '../services/LoginService';
 import TextField from '@mui/material/TextField';
-import { Button, Grid} from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { ToastPosition } from 'react-toastify';
+import OAuthService from '../services/OAuthService';
 
 
-function Login(){
+function Login() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -50,10 +51,22 @@ function Login(){
         }));
     };
 
+    const loginOAuth2 = async () =>{
+        await OAuthService.loginWithGoogle()
+        .then(response => {
+          const link =response.data;
+          console.log("response: ", response)
+          console.log("Redirect link:", link);
+          window.location.href = link;
+    
+        })
+    
+      }
 
-    return(
+
+    return (
         <>
-           <Grid container wrap="nowrap" spacing={2}>
+            <Grid container wrap="nowrap" spacing={2}>
                 {/* <Container
                     component="main" className={style.container}> */}
 
@@ -111,14 +124,24 @@ function Login(){
                                 type='submit'
                                 sx={{
                                     marginTop: '20px',
-                                    width: '100%', 
+                                    width: '100%',
                                     height: 50
                                 }}>Login</Button>
                         </Grid>
                     </form>
+
+                    <Grid item>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                marginTop: '20px',
+                                width: '100%',
+                                height: 50
+                            }}
+                            onClick={loginOAuth2}
+                        >Login with Gmail</Button>
+                    </Grid>
                 </Grid>
-
-
                 {/* </Container> */}
             </Grid>
         </>

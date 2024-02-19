@@ -1,13 +1,18 @@
 package be.ytbe.business.impl;
 
+import be.ytbe.business.AccessTokenManager;
 import be.ytbe.business.UserManager;
 import be.ytbe.business.converter.UserConverter;
 import be.ytbe.business.exception.EmailAlreadyInUseException;
 import be.ytbe.business.exception.UserException;
 import be.ytbe.business.exception.UserNotFoundException;
+import be.ytbe.configuration.security.token.AccessToken;
 import be.ytbe.domain.User;
 import be.ytbe.domain.enumeration.Role;
+import be.ytbe.external.GoogleOauth;
+import be.ytbe.persistance.OAuthGoogleRepository;
 import be.ytbe.persistance.UserRepository;
+import be.ytbe.persistance.entity.GoogleUserEntity;
 import be.ytbe.persistance.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +30,12 @@ public class  UserManagerImpl implements UserManager {
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
+
+    private final OAuthGoogleRepository oAuthGoogleRepository;
+
+    private final GoogleOauth googleOauth;
+
+    private final AccessTokenManager accessTokenManager;
 
     public User get(String id){
         try{
@@ -152,6 +163,28 @@ public class  UserManagerImpl implements UserManager {
         catch (Exception ex){
             throw new UserException("Something went wrong with deleting the account");
         }
+    }
+
+
+    public boolean linkGoogleToAccount(String accesstoken, String accessTokenGoogle){
+
+        String id = accessTokenManager.getUserIdFromToken(accesstoken);
+        String sub = googleOauth.getSub(accessTokenGoogle);
+
+        GoogleUserEntity entity = GoogleUserEntity.builder()
+                .user_id(id)
+                .sub(sub)
+                .build();
+
+        if(oAuthGoogleRepository.existsBySub(sub)){
+            throw new UserException("Google account is already linked!");
+
+        }
+        else{
+            oAuthGoogleRepository.save(entity);
+            return true;
+        }
+
     }
 
 }

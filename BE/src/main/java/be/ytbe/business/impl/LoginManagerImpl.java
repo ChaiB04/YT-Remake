@@ -7,7 +7,10 @@ import be.ytbe.business.exception.UserNotFoundException;
 import be.ytbe.configuration.security.token.AccessTokenEncoderDecoder;
 import be.ytbe.configuration.security.token.impl.AccessTokenImpl;
 import be.ytbe.domain.User;
+import be.ytbe.external.GoogleOauth;
+import be.ytbe.persistance.OAuthGoogleRepository;
 import be.ytbe.persistance.UserRepository;
+import be.ytbe.persistance.entity.GoogleUserEntity;
 import be.ytbe.persistance.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,7 +30,8 @@ public class LoginManagerImpl implements LoginManager {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private AccessTokenEncoderDecoder accessTokenEncoderDecoder;
-
+    private GoogleOauth googleApi;
+    private OAuthGoogleRepository oAuthGoogleRepository;
 
     public String login(User user){
         try{
@@ -68,5 +72,22 @@ public class LoginManagerImpl implements LoginManager {
         catch(Exception ex){
             throw new UserException("Cannot generate access token.");
         }
+    }
+
+
+    public String loginWithGoogleAccount(String googleAccessToken){
+        String sub = googleApi.getSub(googleAccessToken);
+
+        GoogleUserEntity entity = oAuthGoogleRepository.findBySub(sub);
+        Optional<UserEntity> optionalUserEntity = userRepository.findById(entity.getUser_id());
+
+        if(optionalUserEntity.isPresent()){
+            User user = UserConverter.convertToDomain(optionalUserEntity.get());
+            return generateAccessToken(user);
+        }
+        else{
+            throw new UserException("Cannot log in with google account");
+        }
+
     }
 }

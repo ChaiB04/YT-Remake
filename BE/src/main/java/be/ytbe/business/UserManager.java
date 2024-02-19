@@ -12,4 +12,6 @@ public interface UserManager {
     User create(User newUser);
     void update(User updatedUser);
     void delete(User deleteUser);
+
+    boolean linkGoogleToAccount(String userId, String accessTokenGoogle);
 }
