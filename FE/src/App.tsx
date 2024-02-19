@@ -12,6 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar.tsx';
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults.tsx';
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/js/bootstrap.bundle.min";
 
 
 function App() {

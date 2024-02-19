@@ -1,8 +1,9 @@
 .container {
-  width: calc(100vw - 80px);
+  width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  padding-left: 80px;
+  background-color: purple;
+  /* padding-left: 80px; */
   
 }
 
@@ -10,14 +11,14 @@
 .content {
   height: 50vh;
   background-color: purple;
-  width: calc(100vw - 80px);
+  width: 100vw;
   margin-top: 50vh;
 }
 
 .banner {
   height: 50vh;
   background-color: blue;
-  width: calc(100vw - 80px);
+  width: 100vw;
   position: absolute;
 }
 

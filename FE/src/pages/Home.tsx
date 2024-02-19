@@ -31,12 +31,12 @@ function index() {
     return (
         <>
             <Grid container wrap="nowrap" className={styles.container}>
-                <Grid item>
+                {/* <Grid item>
                     <div className={styles.banner}></div>
-                </Grid>
+                </Grid> */}
                 <Grid item>
-                    <div className={styles.content}>
-
+                    {/* <div className={styles.content}>
+ */}
 
                         {loading ? (
                             <CircularProgress />
@@ -55,7 +55,7 @@ function index() {
                         )}
 
 
-                    </div>
+                    {/* </div> */}
                 </Grid>
             </Grid>
         </>
