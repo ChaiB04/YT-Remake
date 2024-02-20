@@ -17,10 +17,19 @@ function googleAccessTokenToLoginAccessToken(googletoken: string){
     return axios.post("/oauth2/loginGoogle", googletoken)
 }
 
+interface googledata{
+    googleToken: string
+}
+
+function linkGoogleAccount(data: googledata){
+    return axios.post("/oauth/linkGoogle", data)
+}
+
 const OAuthService = {
     loginWithGoogle,
     postGoogleCodeReceiveAccessToken,
-    googleAccessTokenToLoginAccessToken
+    googleAccessTokenToLoginAccessToken,
+    linkGoogleAccount
 }
 
 export default OAuthService;

@@ -8,6 +8,7 @@ import be.ytbe.controller.dto.oauth.LinkGoogleAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -78,16 +79,13 @@ public class OAuth2Controller {
     }
 
     @PostMapping("linkGoogle")
-    public ResponseEntity<Void> linkGoogleAccount(@RequestBody LinkGoogleAccount linkaccounts){
+    public ResponseEntity<Void> linkGoogleAccount(@RequestHeader(HttpHeaders.AUTHORIZATION) final String accessToken, @RequestBody LinkGoogleAccount linkaccounts){
 
-        if(userManager.linkGoogleToAccount(linkaccounts.getAccessToken(), linkaccounts.getGoogleToken())){
+        if(userManager.linkGoogleToAccount(accessToken, linkaccounts.getGoogleToken())){
             return ResponseEntity.ok().build();
         }
         else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
-
-
 }

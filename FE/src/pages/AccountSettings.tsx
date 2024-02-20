@@ -4,11 +4,12 @@ import Role from "../enums/Role";
 import UserService from "../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { Tab, Tabs, Box } from "@mui/material";
+import { Tab, Tabs, Box, Button } from "@mui/material";
 import UpdateEmailAndUsername from "../components/UpdateEmailAndUsername";
 import UpdatePassword from "../components/UpdatePassword";
 import { RootState } from "../redux/app/Store";
 import DeleteAccount from "../components/DeleteAccount";
+import OAuthService from "../services/OAuthService";
 
 
 function AccountSettings() {
@@ -35,8 +36,7 @@ function AccountSettings() {
 
     const fetchUser = async () => {
         try {
-            const token = accesstoken || "";
-            const response = await UserService.getByAccessToken(token);
+            const response = await UserService.getByAccessToken();
             setUser(response.data);
            
         } catch (error) {
@@ -47,6 +47,16 @@ function AccountSettings() {
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setSelectedTab(newValue);
     };
+
+     const linkAccount = async () => {
+        await OAuthService.loginWithGoogle()
+        .then(response => {
+          const link =response.data;
+          console.log("response: ", response)
+          console.log("Redirect link:", link);
+          window.location.href = link;}
+          )
+    }
 
     return (
         <Box
@@ -67,6 +77,7 @@ function AccountSettings() {
                     {selectedTab === 0 && <UpdateEmailAndUsername user={user} />}
                     {selectedTab === 1 && <UpdatePassword user={user} />}
                     {selectedTab === 2 && <DeleteAccount user={user} />}
+                    <Button onClick={linkAccount}>Link Gmail</Button>
                 </Box>
             )}
         </Box>

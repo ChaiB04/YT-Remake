@@ -3,7 +3,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import LoginPage from '../../../components/Login';
 import CreateAccount from '../../../components/CreateAccount'
 import { useState } from 'react';
-import styles from "../../styles/Login.module.css"
+import styles from "../../../styles/Login.module.css"
 
 function Login() {
 

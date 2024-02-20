@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LinkGoogleAccount {
-    private String accessToken;
     private String googleToken;
 }
