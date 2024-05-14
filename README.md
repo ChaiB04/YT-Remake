@@ -2,7 +2,7 @@
 ReactTS
 ---
 # BE:
-SpringBoot
+SpringBoot Java
 ---
 # DB:
 MongoDB
